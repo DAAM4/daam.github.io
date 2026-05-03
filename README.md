@@ -1,729 +1,759 @@
-<!DOCTYPE html>
-<html lang="en">
+[uk-relocation-snapshot.html](https://github.com/user-attachments/files/27321186/uk-relocation-snapshot.html)
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UK Relocation Snapshot | Wireframe Physical</title>
-    
-    <!-- Fonts: Fraunces (Editorial Headings) & Lexend Deca (Readable Body) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;400;600&family=Lexend+Deca:wght@300;400;500&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            /* Palette */
-            --bg: #121212;
-            --surface: #1E1E1E;
-            --text-main: #E0E0E0;
-            --text-muted: #A0A0A0;
-            
-            /* Dynamic Accent (Set by JS based on path) */
-            --accent: #00E5FF; 
-            --accent-dim: rgba(0, 229, 255, 0.1);
-            
-            /* Typography */
-            --font-head: 'Fraunces', serif;
-            --font-body: 'Lexend+Deca', sans-serif;
-            
-            /* Spacing & Layout */
-            --space-xs: 0.5rem;
-            --space-sm: 1rem;
-            --space-md: 2rem;
-            --space-lg: 4rem;
-            --radius: 8px;
-            --max-w: 680px;
-            
-            /* Transitions */
-            --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        /* Reset & Base */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            font-family: var(--font-body);
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: var(--space-md);
-        }
-
-        /* Header & Branding */
-        header {
-            width: 100%;
-            max-width: var(--max-w);
-            margin-bottom: var(--space-lg);
-            border-bottom: 1px solid var(--surface);
-            padding-bottom: var(--space-sm);
-        }
-
-        h1 {
-            font-family: var(--font-head);
-            font-weight: 400;
-            font-size: 2.5rem;
-            letter-spacing: -0.02em;
-            margin-bottom: var(--space-xs);
-        }
-
-        .tagline {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            width: 100%;
-            max-width: var(--max-w);
-            height: 4px;
-            background: var(--surface);
-            margin-bottom: var(--space-lg);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: var(--accent);
-            width: 0%;
-            transition: width 0.4s var(--ease);
-        }
-
-        /* Main Form Area */
-        main {
-            width: 100%;
-            max-width: var(--max-w);
-            position: relative;
-        }
-
-        .step {
-            display: none;
-            animation: fadeIn 0.4s var(--ease);
-        }
-
-        .step.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h2 {
-            font-family: var(--font-head);
-            font-size: 1.8rem;
-            margin-bottom: var(--space-md);
-            color: var(--accent);
-        }
-
-        p.desc {
-            color: var(--text-muted);
-            margin-bottom: var(--space-md);
-            font-size: 1rem;
-        }
-
-        /* Input Groups */
-        .group {
-            margin-bottom: var(--space-md);
-        }
-
-        label.field-label {
-            display: block;
-            margin-bottom: var(--space-xs);
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        /* Custom Radio Cards (Hidden Input) */
-        .radio-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-sm);
-        }
-
-        .radio-card input {
-            display: none;
-        }
-
-        .radio-card label {
-            display: block;
-            background: var(--surface);
-            padding: var(--space-md);
-            border: 1px solid transparent;
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: all 0.2s var(--ease);
-            text-align: center;
-        }
-
-        .radio-card label:hover {
-            border-color: var(--text-muted);
-        }
-
-        .radio-card input:checked + label {
-            background: var(--accent-dim);
-            border-color: var(--accent);
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        /* Text Inputs */
-        input[type="text"], input[type="number"], select {
-            width: 100%;
-            background: var(--surface);
-            border: 1px solid #333;
-            color: var(--text-main);
-            padding: var(--space-sm);
-            border-radius: var(--radius);
-            font-family: var(--font-body);
-            font-size: 1rem;
-            transition: border-color 0.2s;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        /* Error States */
-        .field-wrapper.err input, 
-        .field-wrapper.err select {
-            border-color: #FF5252;
-        }
-
-        .error-msg {
-            color: #FF5252;
-            font-size: 0.85rem;
-            margin-top: 0.25rem;
-            display: none;
-        }
-
-        .field-wrapper.err .error-msg {
-            display: block;
-        }
-
-        /* Navigation Buttons */
-        .nav-actions {
-            display: flex;
-            justify-content: space-between;
-            margin-top: var(--space-lg);
-        }
-
-        button {
-            background: transparent;
-            border: 1px solid var(--text-muted);
-            color: var(--text-main);
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--radius);
-            cursor: pointer;
-            font-family: var(--font-body);
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        button:hover {
-            border-color: var(--text-main);
-            background: var(--surface);
-        }
-
-        button.primary {
-            background: var(--accent);
-            color: var(--bg);
-            border: none;
-            font-weight: 600;
-        }
-
-        button.primary:hover {
-            background: #fff;
-            color: var(--bg);
-        }
-
-        /* Saved Banner */
-        .saved-banner {
-            background: var(--accent-dim);
-            border-left: 3px solid var(--accent);
-            padding: var(--space-sm);
-            margin-bottom: var(--space-md);
-            font-size: 0.9rem;
-            display: none;
-        }
-
-        /* Footer */
-        footer {
-            margin-top: auto;
-            padding-top: var(--space-lg);
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            text-align: center;
-            width: 100%;
-            max-width: var(--max-w);
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .radio-group { grid-template-columns: 1fr; }
-            h1 { font-size: 2rem; }
-        }
-    </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2487.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Menlo; color: #9ba2b1; -webkit-text-stroke: #9ba2b1; background-color: #1e2127}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Menlo; color: #d65562; -webkit-text-stroke: #d65562; background-color: #1e2127}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Menlo; color: #88b966; -webkit-text-stroke: #88b966; background-color: #1e2127}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Menlo; color: #9ba2b1; -webkit-text-stroke: #9ba2b1; background-color: #1e2127; min-height: 14.0px}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Menlo; color: #4a505d; -webkit-text-stroke: #4a505d; background-color: #1e2127}
+    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Menlo; color: #c58853; -webkit-text-stroke: #c58853; background-color: #1e2127}
+    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Menlo; color: #519deb; -webkit-text-stroke: #519deb; background-color: #1e2127}
+    span.s1 {font-kerning: none; text-shadow: 0.0px 1.0px 0.0px rgba(255, 255, 255, 0)}
+    span.s2 {font-kerning: none; color: #d65562; -webkit-text-stroke: 0px #d65562; text-shadow: 0.0px 1.0px 0.0px rgba(255, 255, 255, 0)}
+    span.s3 {font-kerning: none; color: #c58853; -webkit-text-stroke: 0px #c58853; text-shadow: 0.0px 1.0px 0.0px rgba(255, 255, 255, 0)}
+    span.s4 {font-kerning: none; color: #88b966; -webkit-text-stroke: 0px #88b966; text-shadow: 0.0px 1.0px 0.0px rgba(255, 255, 255, 0)}
+    span.s5 {font-kerning: none; color: #9ba2b1; -webkit-text-stroke: 0px #9ba2b1; text-shadow: 0.0px 1.0px 0.0px rgba(255, 255, 255, 0)}
+    span.s6 {font-kerning: none; color: #519deb; -webkit-text-stroke: 0px #519deb; text-shadow: 0.0px 1.0px 0.0px rgba(255, 255, 255, 0)}
+    span.s7 {font-kerning: none; color: #b85dd5; -webkit-text-stroke: 0px #b85dd5; text-shadow: 0.0px 1.0px 0.0px rgba(255, 255, 255, 0)}
+    span.s8 {font-kerning: none; color: #4a505d; -webkit-text-stroke: 0px #4a505d; text-shadow: 0.0px 1.0px 0.0px rgba(255, 255, 255, 0)}
+  </style>
 </head>
 <body>
-
-    <header>
-        <h1>Relocation Snapshot</h1>
-        <div class="tagline">We don't hold profiles. You do. Define your future, download your plan.</div>
-    </header>
-
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
-
-    <main>
-        <div id="savedBanner" class="saved-banner">
-            Your progress was saved locally. You can resume where you left off.
-        </div>
-
-        <!-- Step 1: Living Preferences -->
-        <div class="step active" id="step-1" data-step="1">
-            <h2>The Living Standard</h2>
-            <p class="desc">Where do you want to wake up? This defines your daily rhythm.</p>
-
-            <div class="group field-wrapper" id="wrap-lifestyle">
-                <label class="field-label">Lifestyle Vibe</label>
-                <div class="radio-group">
-                    <div class="radio-card">
-                        <input type="radio" name="lifestyle" value="urban" id="live-urban">
-                        <label for="live-urban">Urban Pulse<br><span style="font-size:0.8em; color:var(--text-muted)">Fast-paced, culture, nightlife</span></label>
-                    </div>
-                    <div class="radio-card">
-                        <input type="radio" name="lifestyle" value="coastal" id="live-coastal">
-                        <label for="live-coastal">Coastal Calm<br><span style="font-size:0.8em; color:var(--text-muted)">Sea views, slower pace, fresh air</span></label>
-                    </div>
-                    <div class="radio-card">
-                        <input type="radio" name="lifestyle" value="rural" id="live-rural">
-                        <label for="live-rural">Rural Quiet<br><span style="font-size:0.8em; color:var(--text-muted)">Nature, space, community</span></label>
-                    </div>
-                    <div class="radio-card">
-                        <input type="radio" name="lifestyle" value="industrial" id="live-industrial">
-                        <label for="live-industrial">Industrial Edge<br><span style="font-size:0.8em; color:var(--text-muted)">Gritty, creative, affordable</span></label>
-                    </div>
-                </div>
-                <div class="error-msg">Please select a lifestyle preference.</div>
-            </div>
-
-            <div class="group field-wrapper" id="wrap-budget">
-                <label class="field-label">Max Monthly Rent (£)</label>
-                <input type="number" id="budget" placeholder="e.g. 1200">
-                <div class="error-msg">Please enter a valid budget.</div>
-            </div>
-
-            <div class="nav-actions">
-                <button disabled>Back</button>
-                <button class="primary" onclick="nextStep(1)">Next: Career Engine</button>
-            </div>
-        </div>
-
-        <!-- Step 2: Working Preferences -->
-        <div class="step" id="step-2" data-step="2">
-            <h2>The Career Engine</h2>
-            <p class="desc">What fuels your ambition? We match industry hubs to your goals.</p>
-
-            <div class="group field-wrapper" id="wrap-industry">
-                <label class="field-label">Primary Industry</label>
-                <select id="industry">
-                    <option value="">Select an industry...</option>
-                    <option value="tech">Technology & Software</option>
-                    <option value="creative">Creative & Design</option>
-                    <option value="finance">Finance & Business</option>
-                    <option value="healthcare">Healthcare & Science</option>
-                    <option value="trades">Trades & Construction</option>
-                    <option value="education">Education & Research</option>
-                </select>
-                <div class="error-msg">Please select an industry.</div>
-            </div>
-
-            <div class="group field-wrapper" id="wrap-workmode">
-                <label class="field-label">Work Mode Preference</label>
-                <div class="radio-group">
-                    <div class="radio-card">
-                        <input type="radio" name="workmode" value="remote" id="work-remote">
-                        <label for="work-remote">Fully Remote</label>
-                    </div>
-                    <div class="radio-card">
-                        <input type="radio" name="workmode" value="hybrid" id="work-hybrid">
-                        <label for="work-hybrid">Hybrid (2-3 days office)</label>
-                    </div>
-                    <div class="radio-card">
-                        <input type="radio" name="workmode" value="onsite" id="work-onsite">
-                        <label for="work-onsite">On-Site Only</label>
-                    </div>
-                </div>
-                <div class="error-msg">Please select a work mode.</div>
-            </div>
-
-            <div class="nav-actions">
-                <button onclick="prevStep(2)">Back</button>
-                <button class="primary" onclick="nextStep(2)">Next: Generate Snapshot</button>
-            </div>
-        </div>
-
-        <!-- Step 3: Results & Export -->
-        <div class="step" id="step-3" data-step="3">
-            <h2>Your Snapshot</h2>
-            <p class="desc">Based on your inputs, here are your top matches. This data lives in your browser until you download it.</p>
-            
-            <div id="results-container" style="margin-bottom: var(--space-lg);">
-                <!-- Results injected here via JS -->
-                <div style="background:var(--surface); padding:var(--space-md); border-radius:var(--radius);">
-                    <strong>Analysis:</strong> Calculating optimal matches...
-                </div>
-            </div>
-
-            <div class="nav-actions">
-                <button onclick="prevStep(3)">Back</button>
-                <button class="primary" id="btn-download" onclick="downloadSnapshot()">Download PDF Snapshot</button>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <p>We don't hold profiles — you do. <br>Your snapshot travels with you.</p>
-    </footer>
-
-    <!-- Scripts -->
-    <script>
-        // --- REAL UK CITY DATASET ---
-        // Salaries are approximate averages for mid-level roles (£)
-        // Rents are approximate 1-bed city centre (£)
-        // Vibe scores (0-100) indicate how strongly the city fits the category
-        const UK_CITIES = [
-            {
-                name: "London",
-                region: "South East",
-                rent: 2100,
-                salaries: { tech: 65000, creative: 45000, finance: 75000, healthcare: 42000, trades: 38000, education: 35000 },
-                vibes: { urban: 100, coastal: 20, rural: 10, industrial: 60 },
-                notes: "Global hub. Unbeatable culture, but high cost of living."
-            },
-            {
-                name: "Manchester",
-                region: "North West",
-                rent: 950,
-                salaries: { tech: 48000, creative: 38000, finance: 52000, healthcare: 38000, trades: 32000, education: 34000 },
-                vibes: { urban: 85, coastal: 10, rural: 20, industrial: 90 },
-                notes: "Booming tech scene, gritty industrial heritage, very affordable."
-            },
-            {
-                name: "Bristol",
-                region: "South West",
-                rent: 1150,
-                salaries: { tech: 46000, creative: 42000, finance: 48000, healthcare: 39000, trades: 34000, education: 36000 },
-                vibes: { urban: 75, coastal: 60, rural: 40, industrial: 50 },
-                notes: "Creative capital, high quality of life, slightly higher rents."
-            },
-            {
-                name: "Leeds",
-                region: "Yorkshire",
-                rent: 850,
-                salaries: { tech: 44000, creative: 36000, finance: 55000, healthcare: 37000, trades: 31000, education: 33000 },
-                vibes: { urban: 80, coastal: 0, rural: 30, industrial: 70 },
-                notes: "Financial powerhouse, thriving arts, very affordable."
-            },
-            {
-                name: "Edinburgh",
-                region: "Scotland",
-                rent: 1050,
-                salaries: { tech: 47000, creative: 40000, finance: 58000, healthcare: 40000, trades: 33000, education: 38000 },
-                vibes: { urban: 70, coastal: 40, rural: 50, industrial: 30 },
-                notes: "Historic charm, strong finance/tech, beautiful surroundings."
-            },
-            {
-                name: "Glasgow",
-                region: "Scotland",
-                rent: 800,
-                salaries: { tech: 42000, creative: 38000, finance: 45000, healthcare: 38000, trades: 32000, education: 35000 },
-                vibes: { urban: 75, coastal: 30, rural: 20, industrial: 85 },
-                notes: "Friendly, cultural, affordable, strong industrial roots."
-            },
-            {
-                name: "Brighton",
-                region: "South Coast",
-                rent: 1300,
-                salaries: { tech: 45000, creative: 44000, finance: 40000, healthcare: 38000, trades: 33000, education: 35000 },
-                vibes: { urban: 60, coastal: 100, rural: 20, industrial: 20 },
-                notes: "Beach life, tech hub, creative, expensive for the south coast."
-            },
-            {
-                name: "Birmingham",
-                region: "Midlands",
-                rent: 900,
-                salaries: { tech: 43000, creative: 37000, finance: 48000, healthcare: 37000, trades: 32000, education: 33000 },
-                vibes: { urban: 85, coastal: 0, rural: 10, industrial: 80 },
-                notes: "Central location, massive regeneration, diverse economy."
-            },
-            {
-                name: "Newcastle",
-                region: "North East",
-                rent: 750,
-                salaries: { tech: 40000, creative: 35000, finance: 42000, healthcare: 36000, trades: 30000, education: 32000 },
-                vibes: { urban: 70, coastal: 50, rural: 30, industrial: 75 },
-                notes: "Great nightlife, very affordable, close to countryside."
-            },
-            {
-                name: "Cambridge",
-                region: "East of England",
-                rent: 1400,
-                salaries: { tech: 60000, creative: 38000, finance: 50000, healthcare: 42000, trades: 35000, education: 45000 },
-                vibes: { urban: 50, coastal: 0, rural: 80, industrial: 40 },
-                notes: "World-class science/tech, historic, expensive, quieter."
-            },
-            {
-                name: "Oxford",
-                region: "South East",
-                rent: 1350,
-                salaries: { tech: 58000, creative: 39000, finance: 52000, healthcare: 41000, trades: 34000, education: 44000 },
-                vibes: { urban: 45, coastal: 0, rural: 85, industrial: 30 },
-                notes: "Academic hub, high salaries, high cost of living."
-            },
-            {
-                name: "Bath",
-                region: "South West",
-                rent: 1100,
-                salaries: { tech: 42000, creative: 40000, finance: 45000, healthcare: 38000, trades: 33000, education: 36000 },
-                vibes: { urban: 40, coastal: 30, rural: 90, industrial: 20 },
-                notes: "Beautiful Georgian architecture, relaxed, tourist-heavy."
-            }
-        ];
-
-        // --- Configuration & State ---
-        const STEPS = ['step-1', 'step-2', 'step-3'];
-        const TOTAL_STEPS = STEPS.length;
-        
-        // Data Object P - holds all user inputs
-        let P = {
-            lifestyle: null,
-            budget: null,
-            industry: null,
-            workmode: null
-        };
-
-        // Path Colors (Living = Blue/Teal, Work = Amber, Result = Purple)
-        const PATH_COLORS = {
-            1: '#00E5FF', // Living
-            2: '#FFB74D', // Work
-            3: '#BA68C8'  // Result
-        };
-
-        // --- Initialization ---
-        document.addEventListener('DOMContentLoaded', () => {
-            loadSession();
-            updateProgress(1);
-        });
-
-        // --- Session Storage Logic ---
-        function loadSession() {
-            const saved = sessionStorage.getItem('uk_reloc_snapshot');
-            if (saved) {
-                try {
-                    const data = JSON.parse(saved);
-                    P = data.P || {};
-                    
-                    if(P.lifestyle) document.querySelector(`input[name="lifestyle"][value="${P.lifestyle}"]`).checked = true;
-                    if(P.budget) document.getElementById('budget').value = P.budget;
-                    if(P.industry) document.getElementById('industry').value = P.industry;
-                    if(P.workmode) document.querySelector(`input[name="workmode"][value="${P.workmode}"]`).checked = true;
-
-                    document.getElementById('savedBanner').style.display = 'block';
-                } catch (e) {
-                    console.error("Failed to load session", e);
-                }
-            }
-        }
-
-        function saveSession() {
-            P.lifestyle = document.querySelector('input[name="lifestyle"]:checked')?.value;
-            P.budget = document.getElementById('budget').value;
-            P.industry = document.getElementById('industry').value;
-            P.workmode = document.querySelector('input[name="workmode"]:checked')?.value;
-            sessionStorage.setItem('uk_reloc_snapshot', JSON.stringify({ P }));
-        }
-
-        function clearSession() {
-            sessionStorage.removeItem('uk_reloc_snapshot');
-            document.getElementById('savedBanner').style.display = 'none';
-        }
-
-        // --- Navigation & Validation ---
-        function updateProgress(stepIndex) {
-            const pct = ((stepIndex - 1) / (TOTAL_STEPS - 1)) * 100;
-            document.getElementById('progressBar').style.width = `${pct}%`;
-            document.documentElement.style.setProperty('--accent', PATH_COLORS[stepIndex]);
-        }
-
-        function validateStep(stepNum) {
-            let isValid = true;
-            
-            if (stepNum === 1) {
-                const lifestyle = document.querySelector('input[name="lifestyle"]:checked');
-                const budget = document.getElementById('budget').value;
-                const wrapLive = document.getElementById('wrap-lifestyle');
-                const wrapBud = document.getElementById('wrap-budget');
-
-                if (!lifestyle) { wrapLive.classList.add('err'); isValid = false; } else { wrapLive.classList.remove('err'); }
-                if (!budget || budget <= 0) { wrapBud.classList.add('err'); isValid = false; } else { wrapBud.classList.remove('err'); }
-            }
-
-            if (stepNum === 2) {
-                const industry = document.getElementById('industry').value;
-                const workmode = document.querySelector('input[name="workmode"]:checked');
-                const wrapInd = document.getElementById('wrap-industry');
-                const wrapMode = document.getElementById('wrap-workmode');
-
-                if (!industry) { wrapInd.classList.add('err'); isValid = false; } else { wrapInd.classList.remove('err'); }
-                if (!workmode) { wrapMode.classList.add('err'); isValid = false; } else { wrapMode.classList.remove('err'); }
-            }
-
-            return isValid;
-        }
-
-        function nextStep(currentStep) {
-            if (!validateStep(currentStep)) return;
-            saveSession();
-            document.getElementById(`step-${currentStep}`).classList.remove('active');
-            const next = currentStep + 1;
-            if (next <= TOTAL_STEPS) {
-                document.getElementById(`step-${next}`).classList.add('active');
-                updateProgress(next);
-                if (next === 3) generateResults();
-            }
-        }
-
-        function prevStep(currentStep) {
-            document.getElementById(`step-${currentStep}`).classList.remove('active');
-            const prev = currentStep - 1;
-            document.getElementById(`step-${prev}`).classList.add('active');
-            updateProgress(prev);
-        }
-
-        // --- REAL FILTERING LOGIC ---
-        function generateResults() {
-            const container = document.getElementById('results-container');
-            const userBudget = parseInt(P.budget);
-            const userIndustry = P.industry;
-            const userLifestyle = P.lifestyle;
-
-            // Calculate scores for each city
-            const scoredCities = UK_CITIES.map(city => {
-                let score = 0;
-                let reasons = [];
-
-                // 1. Budget Check (Hard Filter + Soft Score)
-                if (city.rent > userBudget * 1.2) {
-                    // If rent is > 20% over budget, heavily penalize but don't exclude completely (maybe they can stretch)
-                    score -= 50;
-                    reasons.push("Rent significantly over budget");
-                } else if (city.rent <= userBudget) {
-                    score += 40; // Good fit
-                    reasons.push("Fits budget comfortably");
-                } else {
-                    score += 20; // Slightly over but manageable
-                    reasons.push("Slightly over budget");
-                }
-
-                // 2. Industry Match (Salary Potential)
-                const avgSalary = city.salaries[userIndustry] || 0;
-                // Normalize salary score (assuming 40k is baseline, 70k is high)
-                const salaryScore = Math.min((avgSalary / 70000) * 30, 30);
-                score += salaryScore;
-                
-                if (avgSalary > 50000) reasons.push(`Strong ${userIndustry} salaries (£${avgSalary.toLocaleString()})`);
-                else if (avgSalary > 35000) reasons.push(`Decent ${userIndustry} salaries (£${avgSalary.toLocaleString()})`);
-                else reasons.push(`${userIndustry} market is smaller here`);
-
-                // 3. Lifestyle Match (Vibe Score)
-                const vibeScore = city.vibes[userLifestyle];
-                score += (vibeScore * 0.3); // Max 30 points from vibe
-                
-                if (vibeScore > 80) reasons.push("Perfect match for your lifestyle");
-                else if (vibeScore > 50) reasons.push("Good lifestyle fit");
-
-                // Cap score at 100
-                score = Math.min(Math.max(score, 0), 100);
-
-                return {
-                    ...city,
-                    matchScore: Math.round(score),
-                    reasons: reasons
-                };
-            });
-
-            // Sort by score descending
-            scoredCities.sort((a, b) => b.matchScore - a.matchScore);
-
-            // Take top 3
-            const topMatches = scoredCities.slice(0, 3);
-
-            // Render HTML
-            let html = `<div style="background:var(--surface); padding:var(--space-md); border-radius:var(--radius); margin-bottom:var(--space-sm);">
-                <strong>Your Criteria:</strong> ${P.lifestyle} lifestyle, £${P.budget} budget, ${P.industry} sector.
-            </div>`;
-
-            topMatches.forEach(city => {
-                let reasonText = city.reasons.join(", ");
-                html += `
-                <div style="border-left: 3px solid var(--accent); background:var(--surface); padding:var(--space-md); margin-bottom:var(--space-sm); border-radius:0 var(--radius) var(--radius) 0;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
-                        <h3 style="color:var(--accent); margin:0;">${city.name}</h3>
-                        <span style="background:var(--accent-dim); color:var(--accent); padding:0.2rem 0.6rem; border-radius:4px; font-weight:bold;">${city.matchScore}% Match</span>
-                    </div>
-                    <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:0.5rem;">${city.notes}</p>
-                    <div style="font-size:0.85rem; color:#ccc; border-top:1px solid #333; padding-top:0.5rem;">
-                        <strong>Why?</strong> ${reasonText}
-                    </div>
-                    <div style="margin-top:0.5rem; font-size:0.85rem; color:#aaa;">
-                        Est. Rent: £${city.rent} | Avg ${userIndustry} Salary: £${city.salaries[userIndustry].toLocaleString()}
-                    </div>
-                </div>`;
-            });
-
-            container.innerHTML = html;
-        }
-
-        // --- Export Logic ---
-        async function downloadSnapshot() {
-            const btn = document.getElementById('btn-download');
-            btn.innerText = "Generating...";
-            btn.disabled = true;
-
-            await new Promise(r => setTimeout(r, 1500));
-
-            const shareData = btoa(JSON.stringify(P));
-            const shareUrl = `${window.location.origin}${window.location.pathname}?data=${shareData}`;
-
-            alert(`Snapshot Generated!\n\nYour data is ready. In a full version, this would download a PDF.\n\nShareable Link (simulated):\n${shareUrl}`);
-            
-            clearSession();
-            btn.innerText = "Downloaded";
-            btn.style.background = "#4CAF50";
-            btn.style.color = "#fff";
-        }
-
-        // --- URL Parameter Handling ---
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const dataParam = urlParams.get('data');
-            if (dataParam) {
-                try {
-                    const decoded = JSON.parse(atob(dataParam));
-                    document.getElementById('savedBanner').innerHTML = "Loaded from shared link. Edit to refine.";
-                    document.getElementById('savedBanner').style.display = 'block';
-                } catch(e) { console.error("Invalid shared data"); }
-            }
-        };
-    </script>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;</span><span class="s2">html </span><span class="s3">lang</span><span class="s1">="</span><span class="s4">en</span><span class="s1">"&gt;</span></p>
+<p class="p2"><span class="s5">&lt;</span><span class="s1">head</span><span class="s5">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;</span><span class="s2">meta </span><span class="s3">charset</span><span class="s1">="</span><span class="s4">UTF-8</span><span class="s1">"&gt;</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">    </span>&lt;</span><span class="s2">meta </span><span class="s3">name</span><span class="s5">="</span><span class="s1">viewport</span><span class="s5">"</span><span class="s2"> </span><span class="s3">content</span><span class="s5">="</span><span class="s1">width=device-width, initial-scale=1.0</span><span class="s5">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;</span><span class="s2">title</span><span class="s1">&gt;UK Relocation Snapshot | Wireframe Physical&lt;/</span><span class="s2">title</span><span class="s1">&gt;</span></p>
+<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1"><i>&lt;!-- Fonts: Fraunces (Editorial Headings) &amp; Lexend Deca (Readable Body) --&gt;</i></span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">    </span>&lt;</span><span class="s2">link </span><span class="s3">rel</span><span class="s5">="</span><span class="s1">preconnect</span><span class="s5">"</span><span class="s2"> </span><span class="s3">href</span><span class="s5">="</span><span class="s1">https://fonts.googleapis.com</span><span class="s5">"&gt;</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">    </span>&lt;</span><span class="s2">link </span><span class="s3">rel</span><span class="s5">="</span><span class="s1">preconnect</span><span class="s5">"</span><span class="s2"> </span><span class="s3">href</span><span class="s5">="</span><span class="s1">https://fonts.gstatic.com</span><span class="s5">"</span><span class="s2"> </span><span class="s3">crossorigin</span><span class="s5">&gt;</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">    </span>&lt;</span><span class="s2">link </span><span class="s3">href</span><span class="s5">="</span><span class="s1">https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;400;600&amp;family=Lexend+Deca:wght@300;400;500&amp;display=swap</span><span class="s5">"</span><span class="s2"> </span><span class="s3">rel</span><span class="s5">="</span><span class="s1">stylesheet</span><span class="s5">"&gt;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;</span><span class="s2">style</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">:root</span><span class="s1"> {</span></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1"><i>/* Palette */</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">--bg</span><span class="s1">: #121212;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">--surface</span><span class="s1">: #1E1E1E;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">--text-main</span><span class="s1">: #E0E0E0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">--text-muted</span><span class="s1">: #A0A0A0;</span></p>
+<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1"><i>/* Dynamic Accent (Set by JS based on path) */</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">--accent</span><span class="s1">: #00E5FF;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">--accent-dim</span><span class="s1">: </span><span class="s6">rgba</span><span class="s1">(</span><span class="s3">0</span><span class="s1">, </span><span class="s3">229</span><span class="s1">, </span><span class="s3">255</span><span class="s1">, </span><span class="s3">0.1</span><span class="s1">);</span></p>
+<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1"><i>/* Typography */</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">--font-head</span><span class="s1">: </span><span class="s4">'Fraunces'</span><span class="s1">, serif;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">--font-body</span><span class="s1">: </span><span class="s4">'Lexend+Deca'</span><span class="s1">, sans-serif;</span></p>
+<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1"><i>/* Spacing &amp; Layout */</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">--space-xs</span><span class="s1">: </span><span class="s3">0.5</span><span class="s1">rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">--space-sm</span><span class="s1">: </span><span class="s3">1</span><span class="s1">rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">--space-md</span><span class="s1">: </span><span class="s3">2</span><span class="s1">rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">--space-lg</span><span class="s1">: </span><span class="s3">4</span><span class="s1">rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">--radius</span><span class="s1">: </span><span class="s3">8</span><span class="s1">px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">--max-w</span><span class="s1">: </span><span class="s3">680</span><span class="s1">px;</span></p>
+<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1"><i>/* Transitions */</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">--ease</span><span class="s1">: </span><span class="s6">cubic-bezier</span><span class="s1">(</span><span class="s3">0.25</span><span class="s1">, </span><span class="s3">0.46</span><span class="s1">, </span><span class="s3">0.45</span><span class="s1">, </span><span class="s3">0.94</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>/* Reset &amp; Base */</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">*</span><span class="s1"> { </span><span class="s2">box-sizing</span><span class="s1">: border-box; </span><span class="s2">margin</span><span class="s1">: </span><span class="s3">0</span><span class="s1">; </span><span class="s2">padding</span><span class="s1">: </span><span class="s3">0</span><span class="s1">; }</span></p>
+<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">body</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background-color</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--bg</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--text-main</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-family</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--font-body</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">line-height</span><span class="s1">: </span><span class="s3">1.6</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">min-height</span><span class="s1">: </span><span class="s3">100</span><span class="s1">vh;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display</span><span class="s1">: flex;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">flex-direction</span><span class="s1">: column;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">align-items</span><span class="s1">: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">padding</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--space-md</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>/* Header &amp; Branding */</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">header</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">width</span><span class="s1">: </span><span class="s3">100</span><span class="s1">%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">max-width</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--max-w</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">margin-bottom</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--space-lg</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border-bottom</span><span class="s1">: </span><span class="s3">1</span><span class="s1">px solid </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--surface</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">padding-bottom</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--space-sm</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">h1</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-family</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--font-head</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-weight</span><span class="s1">: </span><span class="s3">400</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-size</span><span class="s1">: </span><span class="s3">2.5</span><span class="s1">rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">letter-spacing</span><span class="s1">: </span><span class="s3">-0.02</span><span class="s1">em;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">margin-bottom</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--space-xs</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">.tagline</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--text-muted</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-size</span><span class="s1">: </span><span class="s3">0.9</span><span class="s1">rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>/* Progress Bar */</i></span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.progress-container</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">width</span><span class="s1">: </span><span class="s3">100</span><span class="s1">%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">max-width</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--max-w</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">height</span><span class="s1">: </span><span class="s3">4</span><span class="s1">px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--surface</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">margin-bottom</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--space-lg</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border-radius</span><span class="s1">: </span><span class="s3">2</span><span class="s1">px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">overflow</span><span class="s1">: hidden;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.progress-bar</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">height</span><span class="s1">: </span><span class="s3">100</span><span class="s1">%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--accent</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">width</span><span class="s1">: </span><span class="s3">0</span><span class="s1">%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">transition</span><span class="s1">: width </span><span class="s3">0.4</span><span class="s1">s </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--ease</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>/* Main Form Area */</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">main</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">width</span><span class="s1">: </span><span class="s3">100</span><span class="s1">%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">max-width</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--max-w</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">position</span><span class="s1">: relative;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">.step</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display</span><span class="s1">: none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">animation</span><span class="s1">: fadeIn </span><span class="s3">0.4</span><span class="s1">s </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--ease</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.step.active</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display</span><span class="s1">: block;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p6"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">@keyframes fadeIn</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">from</span><span class="s1"> { </span><span class="s2">opacity</span><span class="s1">: </span><span class="s3">0</span><span class="s1">; </span><span class="s2">transform</span><span class="s1">: </span><span class="s6">translateY</span><span class="s1">(</span><span class="s3">10</span><span class="s1">px); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">to</span><span class="s1"> { </span><span class="s2">opacity</span><span class="s1">: </span><span class="s3">1</span><span class="s1">; </span><span class="s2">transform</span><span class="s1">: </span><span class="s6">translateY</span><span class="s1">(</span><span class="s3">0</span><span class="s1">); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">h2</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-family</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--font-head</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-size</span><span class="s1">: </span><span class="s3">1.8</span><span class="s1">rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">margin-bottom</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--space-md</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--accent</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">p.desc</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--text-muted</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">margin-bottom</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--space-md</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-size</span><span class="s1">: </span><span class="s3">1</span><span class="s1">rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>/* Input Groups */</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">.group</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">margin-bottom</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--space-md</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">label.field-label</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display</span><span class="s1">: block;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">margin-bottom</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--space-xs</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-weight</span><span class="s1">: </span><span class="s3">500</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-size</span><span class="s1">: </span><span class="s3">0.9</span><span class="s1">rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>/* Custom Radio Cards (Hidden Input) */</i></span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.radio-group</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display</span><span class="s1">: grid;</span></p>
+<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">grid-template-columns</span><span class="s5">: </span><span class="s3">1</span><span class="s5">fr </span><span class="s3">1</span><span class="s5">fr;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">gap</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--space-sm</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.radio-card input</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display</span><span class="s1">: none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.radio-card label</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display</span><span class="s1">: block;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--surface</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">padding</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--space-md</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border</span><span class="s1">: </span><span class="s3">1</span><span class="s1">px solid transparent;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border-radius</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--radius</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">cursor</span><span class="s1">: pointer;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">transition</span><span class="s1">: all </span><span class="s3">0.2</span><span class="s1">s </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--ease</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">text-align</span><span class="s1">: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.radio-card label:hover</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border-color</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--text-muted</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.radio-card input:checked + label</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--accent-dim</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border-color</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--accent</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--accent</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-weight</span><span class="s1">: </span><span class="s3">600</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>/* Text Inputs */</i></span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">input[type="text"]</span><span class="s5">,</span><span class="s1"> input[type="number"]</span><span class="s5">,</span><span class="s1"> select</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">width</span><span class="s1">: </span><span class="s3">100</span><span class="s1">%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--surface</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border</span><span class="s1">: </span><span class="s3">1</span><span class="s1">px solid #333;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--text-main</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">padding</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--space-sm</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border-radius</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--radius</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-family</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--font-body</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-size</span><span class="s1">: </span><span class="s3">1</span><span class="s1">rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">transition</span><span class="s1">: border-color </span><span class="s3">0.2</span><span class="s1">s;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">input:focus</span><span class="s5">,</span><span class="s1"> select:focus</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">outline</span><span class="s1">: none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border-color</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--accent</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>/* Error States */</i></span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.field-wrapper.err input</span><span class="s5">,</span><span class="s1"><span class="Apple-converted-space"> </span></span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">        </span>.field-wrapper.err select</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border-color</span><span class="s1">: #FF5252;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">.error-msg</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color</span><span class="s1">: #FF5252;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-size</span><span class="s1">: </span><span class="s3">0.85</span><span class="s1">rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">margin-top</span><span class="s1">: </span><span class="s3">0.25</span><span class="s1">rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display</span><span class="s1">: none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.field-wrapper.err .error-msg</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display</span><span class="s1">: block;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>/* Navigation Buttons */</i></span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.nav-actions</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display</span><span class="s1">: flex;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">justify-content</span><span class="s1">: space-between;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">margin-top</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--space-lg</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">button</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background</span><span class="s1">: transparent;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border</span><span class="s1">: </span><span class="s3">1</span><span class="s1">px solid </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--text-muted</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--text-main</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">padding</span><span class="s1">: </span><span class="s3">0.75</span><span class="s1">rem </span><span class="s3">1.5</span><span class="s1">rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border-radius</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--radius</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">cursor</span><span class="s1">: pointer;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-family</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--font-body</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-weight</span><span class="s1">: </span><span class="s3">500</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">transition</span><span class="s1">: all </span><span class="s3">0.2</span><span class="s1">s;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">button:hover</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border-color</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--text-main</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--surface</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">button.primary</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--accent</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--bg</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border</span><span class="s1">: none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-weight</span><span class="s1">: </span><span class="s3">600</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">button.primary:hover</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background</span><span class="s1">: #fff;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--bg</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>/* Saved Banner */</i></span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">.saved-banner</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--accent-dim</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border-left</span><span class="s1">: </span><span class="s3">3</span><span class="s1">px solid </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--accent</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">padding</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--space-sm</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">margin-bottom</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--space-md</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-size</span><span class="s1">: </span><span class="s3">0.9</span><span class="s1">rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display</span><span class="s1">: none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>/* Footer */</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s4">footer</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">margin-top</span><span class="s1">: auto;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">padding-top</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--space-lg</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">color</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--text-muted</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-size</span><span class="s1">: </span><span class="s3">0.8</span><span class="s1">rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">text-align</span><span class="s1">: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">width</span><span class="s1">: </span><span class="s3">100</span><span class="s1">%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">max-width</span><span class="s1">: </span><span class="s6">var</span><span class="s1">(</span><span class="s6">--max-w</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>/* Responsive */</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">@media </span><span class="s1">(</span><span class="s2">max-width</span><span class="s1">:</span><span class="s3"> 600px</span><span class="s1">) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">.radio-group</span><span class="s1"> { </span><span class="s2">grid-template-columns</span><span class="s1">: </span><span class="s3">1</span><span class="s1">fr; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s4">h1</span><span class="s1"> { </span><span class="s2">font-size</span><span class="s1">: </span><span class="s3">2</span><span class="s1">rem; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/</span><span class="s2">style</span><span class="s1">&gt;</span></p>
+<p class="p2"><span class="s5">&lt;/</span><span class="s1">head</span><span class="s5">&gt;</span></p>
+<p class="p2"><span class="s5">&lt;</span><span class="s1">body</span><span class="s5">&gt;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;</span><span class="s2">header</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;</span><span class="s2">h1</span><span class="s1">&gt;Relocation Snapshot&lt;/</span><span class="s2">h1</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">tagline</span><span class="s1">"&gt;We don't hold profiles. You do. Define your future, download your plan.&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/</span><span class="s2">header</span><span class="s1">&gt;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">    </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s5">="</span><span class="s1">progress-container</span><span class="s5">"&gt;</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s5">="</span><span class="s1">progress-bar</span><span class="s5">"</span><span class="s2"> </span><span class="s3">id</span><span class="s5">="</span><span class="s1">progressBar</span><span class="s5">"&gt;&lt;/</span><span class="s2">div</span><span class="s5">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;</span><span class="s2">main</span><span class="s1">&gt;</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span>&lt;</span><span class="s2">div </span><span class="s3">id</span><span class="s5">="</span><span class="s1">savedBanner</span><span class="s5">"</span><span class="s2"> </span><span class="s3">class</span><span class="s5">="</span><span class="s1">saved-banner</span><span class="s5">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>Your progress was saved locally. You can resume where you left off.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>&lt;!-- Step 1: Living Preferences --&gt;</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">step active</span><span class="s1">"</span><span class="s2"> </span><span class="s3">id</span><span class="s1">="</span><span class="s4">step-1</span><span class="s1">"</span><span class="s2"> </span><span class="s3">data-step</span><span class="s1">="</span><span class="s4">1</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;</span><span class="s2">h2</span><span class="s1">&gt;The Living Standard&lt;/</span><span class="s2">h2</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;</span><span class="s2">p </span><span class="s3">class</span><span class="s1">="</span><span class="s4">desc</span><span class="s1">"&gt;Where do you want to wake up? This defines your daily rhythm.&lt;/</span><span class="s2">p</span><span class="s1">&gt;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">            </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s5">="</span><span class="s1">group field-wrapper</span><span class="s5">"</span><span class="s2"> </span><span class="s3">id</span><span class="s5">="</span><span class="s1">wrap-lifestyle</span><span class="s5">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">label </span><span class="s3">class</span><span class="s1">="</span><span class="s4">field-label</span><span class="s1">"&gt;Lifestyle Vibe&lt;/</span><span class="s2">label</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">radio-group</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">radio-card</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s2">input </span><span class="s3">type</span><span class="s1">="</span><span class="s4">radio</span><span class="s1">"</span><span class="s2"> </span><span class="s3">name</span><span class="s1">="</span><span class="s4">lifestyle</span><span class="s1">"</span><span class="s2"> </span><span class="s3">value</span><span class="s1">="</span><span class="s4">urban</span><span class="s1">"</span><span class="s2"> </span><span class="s3">id</span><span class="s1">="</span><span class="s4">live-urban</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s2">label </span><span class="s3">for</span><span class="s1">="</span><span class="s4">live-urban</span><span class="s1">"&gt;Urban Pulse&lt;</span><span class="s2">br</span><span class="s1">&gt;&lt;</span><span class="s2">span </span><span class="s3">style</span><span class="s1">="</span><span class="s4">font-size:0.8em; color:var(--text-muted)</span><span class="s1">"&gt;Fast-paced, culture, nightlife&lt;/</span><span class="s2">span</span><span class="s1">&gt;&lt;/</span><span class="s2">label</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">radio-card</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s2">input </span><span class="s3">type</span><span class="s1">="</span><span class="s4">radio</span><span class="s1">"</span><span class="s2"> </span><span class="s3">name</span><span class="s1">="</span><span class="s4">lifestyle</span><span class="s1">"</span><span class="s2"> </span><span class="s3">value</span><span class="s1">="</span><span class="s4">coastal</span><span class="s1">"</span><span class="s2"> </span><span class="s3">id</span><span class="s1">="</span><span class="s4">live-coastal</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s2">label </span><span class="s3">for</span><span class="s1">="</span><span class="s4">live-coastal</span><span class="s1">"&gt;Coastal Calm&lt;</span><span class="s2">br</span><span class="s1">&gt;&lt;</span><span class="s2">span </span><span class="s3">style</span><span class="s1">="</span><span class="s4">font-size:0.8em; color:var(--text-muted)</span><span class="s1">"&gt;Sea views, slower pace, fresh air&lt;/</span><span class="s2">span</span><span class="s1">&gt;&lt;/</span><span class="s2">label</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">radio-card</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s2">input </span><span class="s3">type</span><span class="s1">="</span><span class="s4">radio</span><span class="s1">"</span><span class="s2"> </span><span class="s3">name</span><span class="s1">="</span><span class="s4">lifestyle</span><span class="s1">"</span><span class="s2"> </span><span class="s3">value</span><span class="s1">="</span><span class="s4">rural</span><span class="s1">"</span><span class="s2"> </span><span class="s3">id</span><span class="s1">="</span><span class="s4">live-rural</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s2">label </span><span class="s3">for</span><span class="s1">="</span><span class="s4">live-rural</span><span class="s1">"&gt;Rural Quiet&lt;</span><span class="s2">br</span><span class="s1">&gt;&lt;</span><span class="s2">span </span><span class="s3">style</span><span class="s1">="</span><span class="s4">font-size:0.8em; color:var(--text-muted)</span><span class="s1">"&gt;Nature, space, community&lt;/</span><span class="s2">span</span><span class="s1">&gt;&lt;/</span><span class="s2">label</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">radio-card</span><span class="s1">"&gt;</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s2">input </span><span class="s3">type</span><span class="s5">="</span><span class="s1">radio</span><span class="s5">"</span><span class="s2"> </span><span class="s3">name</span><span class="s5">="</span><span class="s1">lifestyle</span><span class="s5">"</span><span class="s2"> </span><span class="s3">value</span><span class="s5">="</span><span class="s1">industrial</span><span class="s5">"</span><span class="s2"> </span><span class="s3">id</span><span class="s5">="</span><span class="s1">live-industrial</span><span class="s5">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s2">label </span><span class="s3">for</span><span class="s1">="</span><span class="s4">live-industrial</span><span class="s1">"&gt;Industrial Edge&lt;</span><span class="s2">br</span><span class="s1">&gt;&lt;</span><span class="s2">span </span><span class="s3">style</span><span class="s1">="</span><span class="s4">font-size:0.8em; color:var(--text-muted)</span><span class="s1">"&gt;Gritty, creative, affordable&lt;/</span><span class="s2">span</span><span class="s1">&gt;&lt;/</span><span class="s2">label</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">error-msg</span><span class="s1">"&gt;Please select a lifestyle preference.&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">            </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s5">="</span><span class="s1">group field-wrapper</span><span class="s5">"</span><span class="s2"> </span><span class="s3">id</span><span class="s5">="</span><span class="s1">wrap-budget</span><span class="s5">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">label </span><span class="s3">class</span><span class="s1">="</span><span class="s4">field-label</span><span class="s1">"&gt;Max Monthly Rent (£)&lt;/</span><span class="s2">label</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">input </span><span class="s3">type</span><span class="s1">="</span><span class="s4">number</span><span class="s1">"</span><span class="s2"> </span><span class="s3">id</span><span class="s1">="</span><span class="s4">budget</span><span class="s1">"</span><span class="s2"> </span><span class="s3">placeholder</span><span class="s1">="</span><span class="s4">e.g. 1200</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">error-msg</span><span class="s1">"&gt;Please enter a valid budget.&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">nav-actions</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">button </span><span class="s3">disabled</span><span class="s1">&gt;Back&lt;/</span><span class="s2">button</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">button </span><span class="s3">class</span><span class="s1">="</span><span class="s4">primary</span><span class="s1">"</span><span class="s2"> </span><span class="s3">onclick</span><span class="s1">="</span><span class="s4">nextStep(1)</span><span class="s1">"&gt;Next: Career Engine&lt;/</span><span class="s2">button</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>&lt;!-- Step 2: Working Preferences --&gt;</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">step</span><span class="s1">"</span><span class="s2"> </span><span class="s3">id</span><span class="s1">="</span><span class="s4">step-2</span><span class="s1">"</span><span class="s2"> </span><span class="s3">data-step</span><span class="s1">="</span><span class="s4">2</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;</span><span class="s2">h2</span><span class="s1">&gt;The Career Engine&lt;/</span><span class="s2">h2</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;</span><span class="s2">p </span><span class="s3">class</span><span class="s1">="</span><span class="s4">desc</span><span class="s1">"&gt;What fuels your ambition? We match industry hubs to your goals.&lt;/</span><span class="s2">p</span><span class="s1">&gt;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">            </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s5">="</span><span class="s1">group field-wrapper</span><span class="s5">"</span><span class="s2"> </span><span class="s3">id</span><span class="s5">="</span><span class="s1">wrap-industry</span><span class="s5">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">label </span><span class="s3">class</span><span class="s1">="</span><span class="s4">field-label</span><span class="s1">"&gt;Primary Industry&lt;/</span><span class="s2">label</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">select </span><span class="s3">id</span><span class="s1">="</span><span class="s4">industry</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s2">option </span><span class="s3">value</span><span class="s1">=""&gt;Select an industry...&lt;/</span><span class="s2">option</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s2">option </span><span class="s3">value</span><span class="s1">="</span><span class="s4">tech</span><span class="s1">"&gt;Technology &amp; Software&lt;/</span><span class="s2">option</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s2">option </span><span class="s3">value</span><span class="s1">="</span><span class="s4">creative</span><span class="s1">"&gt;Creative &amp; Design&lt;/</span><span class="s2">option</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s2">option </span><span class="s3">value</span><span class="s1">="</span><span class="s4">finance</span><span class="s1">"&gt;Finance &amp; Business&lt;/</span><span class="s2">option</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s2">option </span><span class="s3">value</span><span class="s1">="</span><span class="s4">healthcare</span><span class="s1">"&gt;Healthcare &amp; Science&lt;/</span><span class="s2">option</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s2">option </span><span class="s3">value</span><span class="s1">="</span><span class="s4">trades</span><span class="s1">"&gt;Trades &amp; Construction&lt;/</span><span class="s2">option</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s2">option </span><span class="s3">value</span><span class="s1">="</span><span class="s4">education</span><span class="s1">"&gt;Education &amp; Research&lt;/</span><span class="s2">option</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/</span><span class="s2">select</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">error-msg</span><span class="s1">"&gt;Please select an industry.&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">            </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s5">="</span><span class="s1">group field-wrapper</span><span class="s5">"</span><span class="s2"> </span><span class="s3">id</span><span class="s5">="</span><span class="s1">wrap-workmode</span><span class="s5">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">label </span><span class="s3">class</span><span class="s1">="</span><span class="s4">field-label</span><span class="s1">"&gt;Work Mode Preference&lt;/</span><span class="s2">label</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">radio-group</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">radio-card</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s2">input </span><span class="s3">type</span><span class="s1">="</span><span class="s4">radio</span><span class="s1">"</span><span class="s2"> </span><span class="s3">name</span><span class="s1">="</span><span class="s4">workmode</span><span class="s1">"</span><span class="s2"> </span><span class="s3">value</span><span class="s1">="</span><span class="s4">remote</span><span class="s1">"</span><span class="s2"> </span><span class="s3">id</span><span class="s1">="</span><span class="s4">work-remote</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s2">label </span><span class="s3">for</span><span class="s1">="</span><span class="s4">work-remote</span><span class="s1">"&gt;Fully Remote&lt;/</span><span class="s2">label</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">radio-card</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s2">input </span><span class="s3">type</span><span class="s1">="</span><span class="s4">radio</span><span class="s1">"</span><span class="s2"> </span><span class="s3">name</span><span class="s1">="</span><span class="s4">workmode</span><span class="s1">"</span><span class="s2"> </span><span class="s3">value</span><span class="s1">="</span><span class="s4">hybrid</span><span class="s1">"</span><span class="s2"> </span><span class="s3">id</span><span class="s1">="</span><span class="s4">work-hybrid</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s2">label </span><span class="s3">for</span><span class="s1">="</span><span class="s4">work-hybrid</span><span class="s1">"&gt;Hybrid (2-3 days office)&lt;/</span><span class="s2">label</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">radio-card</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s2">input </span><span class="s3">type</span><span class="s1">="</span><span class="s4">radio</span><span class="s1">"</span><span class="s2"> </span><span class="s3">name</span><span class="s1">="</span><span class="s4">workmode</span><span class="s1">"</span><span class="s2"> </span><span class="s3">value</span><span class="s1">="</span><span class="s4">onsite</span><span class="s1">"</span><span class="s2"> </span><span class="s3">id</span><span class="s1">="</span><span class="s4">work-onsite</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s2">label </span><span class="s3">for</span><span class="s1">="</span><span class="s4">work-onsite</span><span class="s1">"&gt;On-Site Only&lt;/</span><span class="s2">label</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">error-msg</span><span class="s1">"&gt;Please select a work mode.&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">nav-actions</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">button </span><span class="s3">onclick</span><span class="s1">="</span><span class="s4">prevStep(2)</span><span class="s1">"&gt;Back&lt;/</span><span class="s2">button</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">button </span><span class="s3">class</span><span class="s1">="</span><span class="s4">primary</span><span class="s1">"</span><span class="s2"> </span><span class="s3">onclick</span><span class="s1">="</span><span class="s4">nextStep(2)</span><span class="s1">"&gt;Next: Generate Snapshot&lt;/</span><span class="s2">button</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>&lt;!-- Step 3: Results &amp; Export --&gt;</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">step</span><span class="s1">"</span><span class="s2"> </span><span class="s3">id</span><span class="s1">="</span><span class="s4">step-3</span><span class="s1">"</span><span class="s2"> </span><span class="s3">data-step</span><span class="s1">="</span><span class="s4">3</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;</span><span class="s2">h2</span><span class="s1">&gt;Your Snapshot&lt;/</span><span class="s2">h2</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;</span><span class="s2">p </span><span class="s3">class</span><span class="s1">="</span><span class="s4">desc</span><span class="s1">"&gt;Based on your inputs, here are your top matches. This data lives in your browser until you download it.&lt;/</span><span class="s2">p</span><span class="s1">&gt;</span></p>
+<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">            </span>&lt;</span><span class="s2">div </span><span class="s3">id</span><span class="s5">="</span><span class="s1">results-container</span><span class="s5">"</span><span class="s2"> </span><span class="s3">style</span><span class="s5">="</span><span class="s1">margin-bottom: var(--space-lg);</span><span class="s5">"&gt;</span></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1"><i>&lt;!-- Results injected here via JS --&gt;</i></span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">div </span><span class="s3">style</span><span class="s5">="</span><span class="s1">background:var(--surface); padding:var(--space-md); border-radius:var(--radius);</span><span class="s5">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s2">strong</span><span class="s1">&gt;Analysis:&lt;/</span><span class="s2">strong</span><span class="s1">&gt; Calculating optimal matches...</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;</span><span class="s2">div </span><span class="s3">class</span><span class="s1">="</span><span class="s4">nav-actions</span><span class="s1">"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">button </span><span class="s3">onclick</span><span class="s1">="</span><span class="s4">prevStep(3)</span><span class="s1">"&gt;Back&lt;/</span><span class="s2">button</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;</span><span class="s2">button </span><span class="s3">class</span><span class="s1">="</span><span class="s4">primary</span><span class="s1">"</span><span class="s2"> </span><span class="s3">id</span><span class="s1">="</span><span class="s4">btn-download</span><span class="s1">"</span><span class="s2"> </span><span class="s3">onclick</span><span class="s1">="</span><span class="s4">downloadSnapshot()</span><span class="s1">"&gt;Download PDF Snapshot&lt;/</span><span class="s2">button</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/</span><span class="s2">main</span><span class="s1">&gt;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;</span><span class="s2">footer</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;</span><span class="s2">p</span><span class="s1">&gt;We don't hold profiles — you do. &lt;</span><span class="s2">br</span><span class="s1">&gt;Your snapshot travels with you.&lt;/</span><span class="s2">p</span><span class="s1">&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/</span><span class="s2">footer</span><span class="s1">&gt;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1"><i>&lt;!-- Scripts --&gt;</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;</span><span class="s2">script</span><span class="s1">&gt;</span></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>// --- REAL UK CITY DATASET ---</i></span></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>// Salaries are approximate averages for mid-level roles (£)</i></span></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>// Rents are approximate 1-bed city centre (£)</i></span></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>// Vibe scores (0-100) indicate how strongly the city fits the category</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">const</span><span class="s1"> </span><span class="s3">UK_CITIES</span><span class="s1"> </span><span class="s6">=</span><span class="s1"> [</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">name</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"London"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">region</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"South East"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">rent</span><span class="s6">:</span><span class="s1"> </span><span class="s3">2100</span><span class="s1">,</span></p>
+<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1">salaries</span><span class="s6">:</span><span class="s5"> { </span><span class="s1">tech</span><span class="s6">:</span><span class="s5"> </span><span class="s3">65000</span><span class="s5">, </span><span class="s1">creative</span><span class="s6">:</span><span class="s5"> </span><span class="s3">45000</span><span class="s5">, </span><span class="s1">finance</span><span class="s6">:</span><span class="s5"> </span><span class="s3">75000</span><span class="s5">, </span><span class="s1">healthcare</span><span class="s6">:</span><span class="s5"> </span><span class="s3">42000</span><span class="s5">, </span><span class="s1">trades</span><span class="s6">:</span><span class="s5"> </span><span class="s3">38000</span><span class="s5">, </span><span class="s1">education</span><span class="s6">:</span><span class="s5"> </span><span class="s3">35000</span><span class="s5"> },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">vibes</span><span class="s6">:</span><span class="s1"> { </span><span class="s2">urban</span><span class="s6">:</span><span class="s1"> </span><span class="s3">100</span><span class="s1">, </span><span class="s2">coastal</span><span class="s6">:</span><span class="s1"> </span><span class="s3">20</span><span class="s1">, </span><span class="s2">rural</span><span class="s6">:</span><span class="s1"> </span><span class="s3">10</span><span class="s1">, </span><span class="s2">industrial</span><span class="s6">:</span><span class="s1"> </span><span class="s3">60</span><span class="s1"> },</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s2">notes</span><span class="s6">:</span><span class="s5"> </span><span class="s1">"Global hub. Unbeatable culture, but high cost of living."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">name</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"Manchester"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">region</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"North West"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">rent</span><span class="s6">:</span><span class="s1"> </span><span class="s3">950</span><span class="s1">,</span></p>
+<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1">salaries</span><span class="s6">:</span><span class="s5"> { </span><span class="s1">tech</span><span class="s6">:</span><span class="s5"> </span><span class="s3">48000</span><span class="s5">, </span><span class="s1">creative</span><span class="s6">:</span><span class="s5"> </span><span class="s3">38000</span><span class="s5">, </span><span class="s1">finance</span><span class="s6">:</span><span class="s5"> </span><span class="s3">52000</span><span class="s5">, </span><span class="s1">healthcare</span><span class="s6">:</span><span class="s5"> </span><span class="s3">38000</span><span class="s5">, </span><span class="s1">trades</span><span class="s6">:</span><span class="s5"> </span><span class="s3">32000</span><span class="s5">, </span><span class="s1">education</span><span class="s6">:</span><span class="s5"> </span><span class="s3">34000</span><span class="s5"> },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">vibes</span><span class="s6">:</span><span class="s1"> { </span><span class="s2">urban</span><span class="s6">:</span><span class="s1"> </span><span class="s3">85</span><span class="s1">, </span><span class="s2">coastal</span><span class="s6">:</span><span class="s1"> </span><span class="s3">10</span><span class="s1">, </span><span class="s2">rural</span><span class="s6">:</span><span class="s1"> </span><span class="s3">20</span><span class="s1">, </span><span class="s2">industrial</span><span class="s6">:</span><span class="s1"> </span><span class="s3">90</span><span class="s1"> },</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s2">notes</span><span class="s6">:</span><span class="s5"> </span><span class="s1">"Booming tech scene, gritty industrial heritage, very affordable."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">name</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"Bristol"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">region</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"South West"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">rent</span><span class="s6">:</span><span class="s1"> </span><span class="s3">1150</span><span class="s1">,</span></p>
+<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1">salaries</span><span class="s6">:</span><span class="s5"> { </span><span class="s1">tech</span><span class="s6">:</span><span class="s5"> </span><span class="s3">46000</span><span class="s5">, </span><span class="s1">creative</span><span class="s6">:</span><span class="s5"> </span><span class="s3">42000</span><span class="s5">, </span><span class="s1">finance</span><span class="s6">:</span><span class="s5"> </span><span class="s3">48000</span><span class="s5">, </span><span class="s1">healthcare</span><span class="s6">:</span><span class="s5"> </span><span class="s3">39000</span><span class="s5">, </span><span class="s1">trades</span><span class="s6">:</span><span class="s5"> </span><span class="s3">34000</span><span class="s5">, </span><span class="s1">education</span><span class="s6">:</span><span class="s5"> </span><span class="s3">36000</span><span class="s5"> },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">vibes</span><span class="s6">:</span><span class="s1"> { </span><span class="s2">urban</span><span class="s6">:</span><span class="s1"> </span><span class="s3">75</span><span class="s1">, </span><span class="s2">coastal</span><span class="s6">:</span><span class="s1"> </span><span class="s3">60</span><span class="s1">, </span><span class="s2">rural</span><span class="s6">:</span><span class="s1"> </span><span class="s3">40</span><span class="s1">, </span><span class="s2">industrial</span><span class="s6">:</span><span class="s1"> </span><span class="s3">50</span><span class="s1"> },</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s2">notes</span><span class="s6">:</span><span class="s5"> </span><span class="s1">"Creative capital, high quality of life, slightly higher rents."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">name</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"Leeds"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">region</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"Yorkshire"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">rent</span><span class="s6">:</span><span class="s1"> </span><span class="s3">850</span><span class="s1">,</span></p>
+<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1">salaries</span><span class="s6">:</span><span class="s5"> { </span><span class="s1">tech</span><span class="s6">:</span><span class="s5"> </span><span class="s3">44000</span><span class="s5">, </span><span class="s1">creative</span><span class="s6">:</span><span class="s5"> </span><span class="s3">36000</span><span class="s5">, </span><span class="s1">finance</span><span class="s6">:</span><span class="s5"> </span><span class="s3">55000</span><span class="s5">, </span><span class="s1">healthcare</span><span class="s6">:</span><span class="s5"> </span><span class="s3">37000</span><span class="s5">, </span><span class="s1">trades</span><span class="s6">:</span><span class="s5"> </span><span class="s3">31000</span><span class="s5">, </span><span class="s1">education</span><span class="s6">:</span><span class="s5"> </span><span class="s3">33000</span><span class="s5"> },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">vibes</span><span class="s6">:</span><span class="s1"> { </span><span class="s2">urban</span><span class="s6">:</span><span class="s1"> </span><span class="s3">80</span><span class="s1">, </span><span class="s2">coastal</span><span class="s6">:</span><span class="s1"> </span><span class="s3">0</span><span class="s1">, </span><span class="s2">rural</span><span class="s6">:</span><span class="s1"> </span><span class="s3">30</span><span class="s1">, </span><span class="s2">industrial</span><span class="s6">:</span><span class="s1"> </span><span class="s3">70</span><span class="s1"> },</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s2">notes</span><span class="s6">:</span><span class="s5"> </span><span class="s1">"Financial powerhouse, thriving arts, very affordable."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">name</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"Edinburgh"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">region</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"Scotland"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">rent</span><span class="s6">:</span><span class="s1"> </span><span class="s3">1050</span><span class="s1">,</span></p>
+<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1">salaries</span><span class="s6">:</span><span class="s5"> { </span><span class="s1">tech</span><span class="s6">:</span><span class="s5"> </span><span class="s3">47000</span><span class="s5">, </span><span class="s1">creative</span><span class="s6">:</span><span class="s5"> </span><span class="s3">40000</span><span class="s5">, </span><span class="s1">finance</span><span class="s6">:</span><span class="s5"> </span><span class="s3">58000</span><span class="s5">, </span><span class="s1">healthcare</span><span class="s6">:</span><span class="s5"> </span><span class="s3">40000</span><span class="s5">, </span><span class="s1">trades</span><span class="s6">:</span><span class="s5"> </span><span class="s3">33000</span><span class="s5">, </span><span class="s1">education</span><span class="s6">:</span><span class="s5"> </span><span class="s3">38000</span><span class="s5"> },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">vibes</span><span class="s6">:</span><span class="s1"> { </span><span class="s2">urban</span><span class="s6">:</span><span class="s1"> </span><span class="s3">70</span><span class="s1">, </span><span class="s2">coastal</span><span class="s6">:</span><span class="s1"> </span><span class="s3">40</span><span class="s1">, </span><span class="s2">rural</span><span class="s6">:</span><span class="s1"> </span><span class="s3">50</span><span class="s1">, </span><span class="s2">industrial</span><span class="s6">:</span><span class="s1"> </span><span class="s3">30</span><span class="s1"> },</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s2">notes</span><span class="s6">:</span><span class="s5"> </span><span class="s1">"Historic charm, strong finance/tech, beautiful surroundings."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">name</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"Glasgow"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">region</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"Scotland"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">rent</span><span class="s6">:</span><span class="s1"> </span><span class="s3">800</span><span class="s1">,</span></p>
+<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1">salaries</span><span class="s6">:</span><span class="s5"> { </span><span class="s1">tech</span><span class="s6">:</span><span class="s5"> </span><span class="s3">42000</span><span class="s5">, </span><span class="s1">creative</span><span class="s6">:</span><span class="s5"> </span><span class="s3">38000</span><span class="s5">, </span><span class="s1">finance</span><span class="s6">:</span><span class="s5"> </span><span class="s3">45000</span><span class="s5">, </span><span class="s1">healthcare</span><span class="s6">:</span><span class="s5"> </span><span class="s3">38000</span><span class="s5">, </span><span class="s1">trades</span><span class="s6">:</span><span class="s5"> </span><span class="s3">32000</span><span class="s5">, </span><span class="s1">education</span><span class="s6">:</span><span class="s5"> </span><span class="s3">35000</span><span class="s5"> },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">vibes</span><span class="s6">:</span><span class="s1"> { </span><span class="s2">urban</span><span class="s6">:</span><span class="s1"> </span><span class="s3">75</span><span class="s1">, </span><span class="s2">coastal</span><span class="s6">:</span><span class="s1"> </span><span class="s3">30</span><span class="s1">, </span><span class="s2">rural</span><span class="s6">:</span><span class="s1"> </span><span class="s3">20</span><span class="s1">, </span><span class="s2">industrial</span><span class="s6">:</span><span class="s1"> </span><span class="s3">85</span><span class="s1"> },</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s2">notes</span><span class="s6">:</span><span class="s5"> </span><span class="s1">"Friendly, cultural, affordable, strong industrial roots."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">name</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"Brighton"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">region</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"South Coast"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">rent</span><span class="s6">:</span><span class="s1"> </span><span class="s3">1300</span><span class="s1">,</span></p>
+<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1">salaries</span><span class="s6">:</span><span class="s5"> { </span><span class="s1">tech</span><span class="s6">:</span><span class="s5"> </span><span class="s3">45000</span><span class="s5">, </span><span class="s1">creative</span><span class="s6">:</span><span class="s5"> </span><span class="s3">44000</span><span class="s5">, </span><span class="s1">finance</span><span class="s6">:</span><span class="s5"> </span><span class="s3">40000</span><span class="s5">, </span><span class="s1">healthcare</span><span class="s6">:</span><span class="s5"> </span><span class="s3">38000</span><span class="s5">, </span><span class="s1">trades</span><span class="s6">:</span><span class="s5"> </span><span class="s3">33000</span><span class="s5">, </span><span class="s1">education</span><span class="s6">:</span><span class="s5"> </span><span class="s3">35000</span><span class="s5"> },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">vibes</span><span class="s6">:</span><span class="s1"> { </span><span class="s2">urban</span><span class="s6">:</span><span class="s1"> </span><span class="s3">60</span><span class="s1">, </span><span class="s2">coastal</span><span class="s6">:</span><span class="s1"> </span><span class="s3">100</span><span class="s1">, </span><span class="s2">rural</span><span class="s6">:</span><span class="s1"> </span><span class="s3">20</span><span class="s1">, </span><span class="s2">industrial</span><span class="s6">:</span><span class="s1"> </span><span class="s3">20</span><span class="s1"> },</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s2">notes</span><span class="s6">:</span><span class="s5"> </span><span class="s1">"Beach life, tech hub, creative, expensive for the south coast."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">name</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"Birmingham"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">region</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"Midlands"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">rent</span><span class="s6">:</span><span class="s1"> </span><span class="s3">900</span><span class="s1">,</span></p>
+<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1">salaries</span><span class="s6">:</span><span class="s5"> { </span><span class="s1">tech</span><span class="s6">:</span><span class="s5"> </span><span class="s3">43000</span><span class="s5">, </span><span class="s1">creative</span><span class="s6">:</span><span class="s5"> </span><span class="s3">37000</span><span class="s5">, </span><span class="s1">finance</span><span class="s6">:</span><span class="s5"> </span><span class="s3">48000</span><span class="s5">, </span><span class="s1">healthcare</span><span class="s6">:</span><span class="s5"> </span><span class="s3">37000</span><span class="s5">, </span><span class="s1">trades</span><span class="s6">:</span><span class="s5"> </span><span class="s3">32000</span><span class="s5">, </span><span class="s1">education</span><span class="s6">:</span><span class="s5"> </span><span class="s3">33000</span><span class="s5"> },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">vibes</span><span class="s6">:</span><span class="s1"> { </span><span class="s2">urban</span><span class="s6">:</span><span class="s1"> </span><span class="s3">85</span><span class="s1">, </span><span class="s2">coastal</span><span class="s6">:</span><span class="s1"> </span><span class="s3">0</span><span class="s1">, </span><span class="s2">rural</span><span class="s6">:</span><span class="s1"> </span><span class="s3">10</span><span class="s1">, </span><span class="s2">industrial</span><span class="s6">:</span><span class="s1"> </span><span class="s3">80</span><span class="s1"> },</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s2">notes</span><span class="s6">:</span><span class="s5"> </span><span class="s1">"Central location, massive regeneration, diverse economy."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">name</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"Newcastle"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">region</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"North East"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">rent</span><span class="s6">:</span><span class="s1"> </span><span class="s3">750</span><span class="s1">,</span></p>
+<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1">salaries</span><span class="s6">:</span><span class="s5"> { </span><span class="s1">tech</span><span class="s6">:</span><span class="s5"> </span><span class="s3">40000</span><span class="s5">, </span><span class="s1">creative</span><span class="s6">:</span><span class="s5"> </span><span class="s3">35000</span><span class="s5">, </span><span class="s1">finance</span><span class="s6">:</span><span class="s5"> </span><span class="s3">42000</span><span class="s5">, </span><span class="s1">healthcare</span><span class="s6">:</span><span class="s5"> </span><span class="s3">36000</span><span class="s5">, </span><span class="s1">trades</span><span class="s6">:</span><span class="s5"> </span><span class="s3">30000</span><span class="s5">, </span><span class="s1">education</span><span class="s6">:</span><span class="s5"> </span><span class="s3">32000</span><span class="s5"> },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">vibes</span><span class="s6">:</span><span class="s1"> { </span><span class="s2">urban</span><span class="s6">:</span><span class="s1"> </span><span class="s3">70</span><span class="s1">, </span><span class="s2">coastal</span><span class="s6">:</span><span class="s1"> </span><span class="s3">50</span><span class="s1">, </span><span class="s2">rural</span><span class="s6">:</span><span class="s1"> </span><span class="s3">30</span><span class="s1">, </span><span class="s2">industrial</span><span class="s6">:</span><span class="s1"> </span><span class="s3">75</span><span class="s1"> },</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s2">notes</span><span class="s6">:</span><span class="s5"> </span><span class="s1">"Great nightlife, very affordable, close to countryside."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">name</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"Cambridge"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">region</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"East of England"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">rent</span><span class="s6">:</span><span class="s1"> </span><span class="s3">1400</span><span class="s1">,</span></p>
+<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1">salaries</span><span class="s6">:</span><span class="s5"> { </span><span class="s1">tech</span><span class="s6">:</span><span class="s5"> </span><span class="s3">60000</span><span class="s5">, </span><span class="s1">creative</span><span class="s6">:</span><span class="s5"> </span><span class="s3">38000</span><span class="s5">, </span><span class="s1">finance</span><span class="s6">:</span><span class="s5"> </span><span class="s3">50000</span><span class="s5">, </span><span class="s1">healthcare</span><span class="s6">:</span><span class="s5"> </span><span class="s3">42000</span><span class="s5">, </span><span class="s1">trades</span><span class="s6">:</span><span class="s5"> </span><span class="s3">35000</span><span class="s5">, </span><span class="s1">education</span><span class="s6">:</span><span class="s5"> </span><span class="s3">45000</span><span class="s5"> },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">vibes</span><span class="s6">:</span><span class="s1"> { </span><span class="s2">urban</span><span class="s6">:</span><span class="s1"> </span><span class="s3">50</span><span class="s1">, </span><span class="s2">coastal</span><span class="s6">:</span><span class="s1"> </span><span class="s3">0</span><span class="s1">, </span><span class="s2">rural</span><span class="s6">:</span><span class="s1"> </span><span class="s3">80</span><span class="s1">, </span><span class="s2">industrial</span><span class="s6">:</span><span class="s1"> </span><span class="s3">40</span><span class="s1"> },</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s2">notes</span><span class="s6">:</span><span class="s5"> </span><span class="s1">"World-class science/tech, historic, expensive, quieter."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">name</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"Oxford"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">region</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"South East"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">rent</span><span class="s6">:</span><span class="s1"> </span><span class="s3">1350</span><span class="s1">,</span></p>
+<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1">salaries</span><span class="s6">:</span><span class="s5"> { </span><span class="s1">tech</span><span class="s6">:</span><span class="s5"> </span><span class="s3">58000</span><span class="s5">, </span><span class="s1">creative</span><span class="s6">:</span><span class="s5"> </span><span class="s3">39000</span><span class="s5">, </span><span class="s1">finance</span><span class="s6">:</span><span class="s5"> </span><span class="s3">52000</span><span class="s5">, </span><span class="s1">healthcare</span><span class="s6">:</span><span class="s5"> </span><span class="s3">41000</span><span class="s5">, </span><span class="s1">trades</span><span class="s6">:</span><span class="s5"> </span><span class="s3">34000</span><span class="s5">, </span><span class="s1">education</span><span class="s6">:</span><span class="s5"> </span><span class="s3">44000</span><span class="s5"> },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">vibes</span><span class="s6">:</span><span class="s1"> { </span><span class="s2">urban</span><span class="s6">:</span><span class="s1"> </span><span class="s3">45</span><span class="s1">, </span><span class="s2">coastal</span><span class="s6">:</span><span class="s1"> </span><span class="s3">0</span><span class="s1">, </span><span class="s2">rural</span><span class="s6">:</span><span class="s1"> </span><span class="s3">85</span><span class="s1">, </span><span class="s2">industrial</span><span class="s6">:</span><span class="s1"> </span><span class="s3">30</span><span class="s1"> },</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s2">notes</span><span class="s6">:</span><span class="s5"> </span><span class="s1">"Academic hub, high salaries, high cost of living."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">name</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"Bath"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">region</span><span class="s6">:</span><span class="s1"> </span><span class="s4">"South West"</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">rent</span><span class="s6">:</span><span class="s1"> </span><span class="s3">1100</span><span class="s1">,</span></p>
+<p class="p2"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1">salaries</span><span class="s6">:</span><span class="s5"> { </span><span class="s1">tech</span><span class="s6">:</span><span class="s5"> </span><span class="s3">42000</span><span class="s5">, </span><span class="s1">creative</span><span class="s6">:</span><span class="s5"> </span><span class="s3">40000</span><span class="s5">, </span><span class="s1">finance</span><span class="s6">:</span><span class="s5"> </span><span class="s3">45000</span><span class="s5">, </span><span class="s1">healthcare</span><span class="s6">:</span><span class="s5"> </span><span class="s3">38000</span><span class="s5">, </span><span class="s1">trades</span><span class="s6">:</span><span class="s5"> </span><span class="s3">33000</span><span class="s5">, </span><span class="s1">education</span><span class="s6">:</span><span class="s5"> </span><span class="s3">36000</span><span class="s5"> },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s2">vibes</span><span class="s6">:</span><span class="s1"> { </span><span class="s2">urban</span><span class="s6">:</span><span class="s1"> </span><span class="s3">40</span><span class="s1">, </span><span class="s2">coastal</span><span class="s6">:</span><span class="s1"> </span><span class="s3">30</span><span class="s1">, </span><span class="s2">rural</span><span class="s6">:</span><span class="s1"> </span><span class="s3">90</span><span class="s1">, </span><span class="s2">industrial</span><span class="s6">:</span><span class="s1"> </span><span class="s3">20</span><span class="s1"> },</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s2">notes</span><span class="s6">:</span><span class="s5"> </span><span class="s1">"Beautiful Georgian architecture, relaxed, tourist-heavy."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>];</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>// --- Configuration &amp; State ---</i></span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s7">const</span><span class="s5"> </span><span class="s3">STEPS</span><span class="s5"> </span><span class="s6">=</span><span class="s5"> [</span><span class="s1">'step-1'</span><span class="s5">, </span><span class="s1">'step-2'</span><span class="s5">, </span><span class="s1">'step-3'</span><span class="s5">];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">const</span><span class="s1"> </span><span class="s3">TOTAL_STEPS</span><span class="s1"> </span><span class="s6">=</span><span class="s1"> </span><span class="s3">STEPS</span><span class="s1">.length;</span></p>
+<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>// Data Object P - holds all user inputs</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">let</span><span class="s1"> </span><span class="s3">P</span><span class="s1"> </span><span class="s6">=</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">lifestyle</span><span class="s6">:</span><span class="s1"> </span><span class="s7">null</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">budget</span><span class="s6">:</span><span class="s1"> </span><span class="s7">null</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">industry</span><span class="s6">:</span><span class="s1"> </span><span class="s7">null</span><span class="s1">,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">workmode</span><span class="s6">:</span><span class="s1"> </span><span class="s7">null</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>// Path Colors (Living = Blue/Teal, Work = Amber, Result = Purple)</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">const</span><span class="s1"> </span><span class="s3">PATH_COLORS</span><span class="s1"> </span><span class="s6">=</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">1</span><span class="s6">:</span><span class="s1"> </span><span class="s4">'#00E5FF'</span><span class="s1">, </span><span class="s8"><i>// Living</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">2</span><span class="s6">:</span><span class="s1"> </span><span class="s4">'#FFB74D'</span><span class="s1">, </span><span class="s8"><i>// Work</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">3</span><span class="s6">:</span><span class="s1"> </span><span class="s4">'#BA68C8'</span><span class="s1"><span class="Apple-converted-space">  </span></span><span class="s8"><i>// Result</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>// --- Initialization ---</i></span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">document</span><span class="s5">.</span><span class="s1">addEventListener</span><span class="s5">(</span><span class="s4">'DOMContentLoaded'</span><span class="s5">, () </span><span class="s1">=&gt;</span><span class="s5"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">loadSession</span><span class="s1">();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">updateProgress</span><span class="s1">(</span><span class="s3">1</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>// --- Session Storage Logic ---</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> </span><span class="s6">loadSession</span><span class="s1">() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> saved </span><span class="s6">=</span><span class="s1"> </span><span class="s6">sessionStorage</span><span class="s1">.</span><span class="s6">getItem</span><span class="s1">(</span><span class="s4">'uk_reloc_snapshot'</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s1"> (saved) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">try</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s7">const</span><span class="s1"> data </span><span class="s6">=</span><span class="s1"> </span><span class="s3">JSON</span><span class="s1">.</span><span class="s6">parse</span><span class="s1">(saved);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s3">P</span><span class="s1"> </span><span class="s6">=</span><span class="s1"> data.</span><span class="s3">P</span><span class="s1"> </span><span class="s6">||</span><span class="s1"> {};</span></p>
+<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s7">if</span><span class="s1">(</span><span class="s3">P</span><span class="s1">.lifestyle) </span><span class="s6">document</span><span class="s1">.</span><span class="s6">querySelector</span><span class="s1">(`</span><span class="s4">input[name="lifestyle"][value="</span><span class="s1">${P.lifestyle}</span><span class="s4">"]</span><span class="s1">`).checked </span><span class="s6">=</span><span class="s1"> </span><span class="s3">true</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s7">if</span><span class="s1">(</span><span class="s3">P</span><span class="s1">.budget) </span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(</span><span class="s4">'budget'</span><span class="s1">).value </span><span class="s6">=</span><span class="s1"> </span><span class="s3">P</span><span class="s1">.budget;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s7">if</span><span class="s1">(</span><span class="s3">P</span><span class="s1">.industry) </span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(</span><span class="s4">'industry'</span><span class="s1">).value </span><span class="s6">=</span><span class="s1"> </span><span class="s3">P</span><span class="s1">.industry;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s7">if</span><span class="s1">(</span><span class="s3">P</span><span class="s1">.workmode) </span><span class="s6">document</span><span class="s1">.</span><span class="s6">querySelector</span><span class="s1">(`</span><span class="s4">input[name="workmode"][value="</span><span class="s1">${P.workmode}</span><span class="s4">"]</span><span class="s1">`).checked </span><span class="s6">=</span><span class="s1"> </span><span class="s3">true</span><span class="s1">;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(</span><span class="s4">'savedBanner'</span><span class="s1">).style.display </span><span class="s6">=</span><span class="s1"> </span><span class="s4">'block'</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} </span><span class="s7">catch</span><span class="s1"> (e) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s3">console</span><span class="s1">.</span><span class="s6">error</span><span class="s1">(</span><span class="s4">"Failed to load session"</span><span class="s1">, e);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> </span><span class="s6">saveSession</span><span class="s1">() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">P</span><span class="s1">.lifestyle </span><span class="s6">=</span><span class="s1"> </span><span class="s6">document</span><span class="s1">.</span><span class="s6">querySelector</span><span class="s1">(</span><span class="s4">'input[name="lifestyle"]:checked'</span><span class="s1">)</span><span class="s6">?.</span><span class="s1">value;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">P</span><span class="s1">.budget </span><span class="s6">=</span><span class="s1"> </span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(</span><span class="s4">'budget'</span><span class="s1">).value;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">P</span><span class="s1">.industry </span><span class="s6">=</span><span class="s1"> </span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(</span><span class="s4">'industry'</span><span class="s1">).value;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">P</span><span class="s1">.workmode </span><span class="s6">=</span><span class="s1"> </span><span class="s6">document</span><span class="s1">.</span><span class="s6">querySelector</span><span class="s1">(</span><span class="s4">'input[name="workmode"]:checked'</span><span class="s1">)</span><span class="s6">?.</span><span class="s1">value;</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">sessionStorage</span><span class="s5">.</span><span class="s1">setItem</span><span class="s5">(</span><span class="s4">'uk_reloc_snapshot'</span><span class="s5">, </span><span class="s3">JSON</span><span class="s5">.</span><span class="s1">stringify</span><span class="s5">({ </span><span class="s3">P</span><span class="s5"> }));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> </span><span class="s6">clearSession</span><span class="s1">() {</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1">sessionStorage</span><span class="s5">.</span><span class="s1">removeItem</span><span class="s5">(</span><span class="s4">'uk_reloc_snapshot'</span><span class="s5">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(</span><span class="s4">'savedBanner'</span><span class="s1">).style.display </span><span class="s6">=</span><span class="s1"> </span><span class="s4">'none'</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>// --- Navigation &amp; Validation ---</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> </span><span class="s6">updateProgress</span><span class="s1">(stepIndex) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> pct </span><span class="s6">=</span><span class="s1"> ((stepIndex </span><span class="s6">-</span><span class="s1"> </span><span class="s3">1</span><span class="s1">) </span><span class="s6">/</span><span class="s1"> (</span><span class="s3">TOTAL_STEPS</span><span class="s1"> </span><span class="s6">-</span><span class="s1"> </span><span class="s3">1</span><span class="s1">)) </span><span class="s6">*</span><span class="s1"> </span><span class="s3">100</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(</span><span class="s4">'progressBar'</span><span class="s1">).style.width </span><span class="s6">=</span><span class="s1"> `${pct}</span><span class="s4">%</span><span class="s1">`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">document</span><span class="s1">.documentElement.style.</span><span class="s6">setProperty</span><span class="s1">(</span><span class="s4">'--accent'</span><span class="s1">, </span><span class="s3">PATH_COLORS</span><span class="s1">[stepIndex]);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> </span><span class="s6">validateStep</span><span class="s1">(stepNum) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">let</span><span class="s1"> isValid </span><span class="s6">=</span><span class="s1"> </span><span class="s3">true</span><span class="s1">;</span></p>
+<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s1"> (stepNum </span><span class="s6">===</span><span class="s1"> </span><span class="s3">1</span><span class="s1">) {</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s5"> lifestyle </span><span class="s6">=</span><span class="s5"> </span><span class="s6">document</span><span class="s5">.</span><span class="s6">querySelector</span><span class="s5">(</span><span class="s1">'input[name="lifestyle"]:checked'</span><span class="s5">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> budget </span><span class="s6">=</span><span class="s1"> </span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(</span><span class="s4">'budget'</span><span class="s1">).value;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> wrapLive </span><span class="s6">=</span><span class="s1"> </span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(</span><span class="s4">'wrap-lifestyle'</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> wrapBud </span><span class="s6">=</span><span class="s1"> </span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(</span><span class="s4">'wrap-budget'</span><span class="s1">);</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">if</span><span class="s1"> (</span><span class="s6">!</span><span class="s1">lifestyle) { wrapLive.classList.</span><span class="s6">add</span><span class="s1">(</span><span class="s4">'err'</span><span class="s1">); isValid </span><span class="s6">=</span><span class="s1"> </span><span class="s3">false</span><span class="s1">; } </span><span class="s7">else</span><span class="s1"> { wrapLive.classList.</span><span class="s6">remove</span><span class="s1">(</span><span class="s4">'err'</span><span class="s1">); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">if</span><span class="s1"> (</span><span class="s6">!</span><span class="s1">budget </span><span class="s6">||</span><span class="s1"> budget </span><span class="s6">&lt;=</span><span class="s1"> </span><span class="s3">0</span><span class="s1">) { wrapBud.classList.</span><span class="s6">add</span><span class="s1">(</span><span class="s4">'err'</span><span class="s1">); isValid </span><span class="s6">=</span><span class="s1"> </span><span class="s3">false</span><span class="s1">; } </span><span class="s7">else</span><span class="s1"> { wrapBud.classList.</span><span class="s6">remove</span><span class="s1">(</span><span class="s4">'err'</span><span class="s1">); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s1"> (stepNum </span><span class="s6">===</span><span class="s1"> </span><span class="s3">2</span><span class="s1">) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> industry </span><span class="s6">=</span><span class="s1"> </span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(</span><span class="s4">'industry'</span><span class="s1">).value;</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s5"> workmode </span><span class="s6">=</span><span class="s5"> </span><span class="s6">document</span><span class="s5">.</span><span class="s6">querySelector</span><span class="s5">(</span><span class="s1">'input[name="workmode"]:checked'</span><span class="s5">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> wrapInd </span><span class="s6">=</span><span class="s1"> </span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(</span><span class="s4">'wrap-industry'</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> wrapMode </span><span class="s6">=</span><span class="s1"> </span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(</span><span class="s4">'wrap-workmode'</span><span class="s1">);</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">if</span><span class="s1"> (</span><span class="s6">!</span><span class="s1">industry) { wrapInd.classList.</span><span class="s6">add</span><span class="s1">(</span><span class="s4">'err'</span><span class="s1">); isValid </span><span class="s6">=</span><span class="s1"> </span><span class="s3">false</span><span class="s1">; } </span><span class="s7">else</span><span class="s1"> { wrapInd.classList.</span><span class="s6">remove</span><span class="s1">(</span><span class="s4">'err'</span><span class="s1">); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">if</span><span class="s1"> (</span><span class="s6">!</span><span class="s1">workmode) { wrapMode.classList.</span><span class="s6">add</span><span class="s1">(</span><span class="s4">'err'</span><span class="s1">); isValid </span><span class="s6">=</span><span class="s1"> </span><span class="s3">false</span><span class="s1">; } </span><span class="s7">else</span><span class="s1"> { wrapMode.classList.</span><span class="s6">remove</span><span class="s1">(</span><span class="s4">'err'</span><span class="s1">); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">return</span><span class="s1"> isValid;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> </span><span class="s6">nextStep</span><span class="s1">(currentStep) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s1"> (</span><span class="s6">!validateStep</span><span class="s1">(currentStep)) </span><span class="s7">return</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">saveSession</span><span class="s1">();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(`</span><span class="s4">step-</span><span class="s1">${currentStep}`).classList.</span><span class="s6">remove</span><span class="s1">(</span><span class="s4">'active'</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> next </span><span class="s6">=</span><span class="s1"> currentStep </span><span class="s6">+</span><span class="s1"> </span><span class="s3">1</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s1"> (next </span><span class="s6">&lt;=</span><span class="s1"> </span><span class="s3">TOTAL_STEPS</span><span class="s1">) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(`</span><span class="s4">step-</span><span class="s1">${next}`).classList.</span><span class="s6">add</span><span class="s1">(</span><span class="s4">'active'</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s6">updateProgress</span><span class="s1">(next);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">if</span><span class="s1"> (next </span><span class="s6">===</span><span class="s1"> </span><span class="s3">3</span><span class="s1">) </span><span class="s6">generateResults</span><span class="s1">();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> </span><span class="s6">prevStep</span><span class="s1">(currentStep) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(`</span><span class="s4">step-</span><span class="s1">${currentStep}`).classList.</span><span class="s6">remove</span><span class="s1">(</span><span class="s4">'active'</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> prev </span><span class="s6">=</span><span class="s1"> currentStep </span><span class="s6">-</span><span class="s1"> </span><span class="s3">1</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(`</span><span class="s4">step-</span><span class="s1">${prev}`).classList.</span><span class="s6">add</span><span class="s1">(</span><span class="s4">'active'</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">updateProgress</span><span class="s1">(prev);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>// --- REAL FILTERING LOGIC ---</i></span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s5"> </span><span class="s1">generateResults</span><span class="s5">() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> container </span><span class="s6">=</span><span class="s1"> </span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(</span><span class="s4">'results-container'</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> userBudget </span><span class="s6">=</span><span class="s1"> </span><span class="s6">parseInt</span><span class="s1">(</span><span class="s3">P</span><span class="s1">.budget);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> userIndustry </span><span class="s6">=</span><span class="s1"> </span><span class="s3">P</span><span class="s1">.industry;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> userLifestyle </span><span class="s6">=</span><span class="s1"> </span><span class="s3">P</span><span class="s1">.lifestyle;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1"><i>// Calculate scores for each city</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> scoredCities </span><span class="s6">=</span><span class="s1"> </span><span class="s3">UK_CITIES</span><span class="s1">.</span><span class="s6">map</span><span class="s1">(city </span><span class="s6">=&gt;</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">let</span><span class="s1"> score </span><span class="s6">=</span><span class="s1"> </span><span class="s3">0</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">let</span><span class="s1"> reasons </span><span class="s6">=</span><span class="s1"> [];</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1"><i>// 1. Budget Check (Hard Filter + Soft Score)</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">if</span><span class="s1"> (city.rent </span><span class="s6">&gt;</span><span class="s1"> userBudget </span><span class="s6">*</span><span class="s1"> </span><span class="s3">1.2</span><span class="s1">) {</span></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">                    </span></span><span class="s1"><i>// If rent is &gt; 20% over budget, heavily penalize but don't exclude completely (maybe they can stretch)</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>score </span><span class="s6">-=</span><span class="s1"> </span><span class="s3">50</span><span class="s1">;</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                    </span>reasons.</span><span class="s6">push</span><span class="s5">(</span><span class="s1">"Rent significantly over budget"</span><span class="s5">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} </span><span class="s7">else</span><span class="s1"> </span><span class="s7">if</span><span class="s1"> (city.rent </span><span class="s6">&lt;=</span><span class="s1"> userBudget) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>score </span><span class="s6">+=</span><span class="s1"> </span><span class="s3">40</span><span class="s1">; </span><span class="s8"><i>// Good fit</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>reasons.</span><span class="s6">push</span><span class="s1">(</span><span class="s4">"Fits budget comfortably"</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} </span><span class="s7">else</span><span class="s1"> {</span></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">                    </span>score </span><span class="s6">+=</span><span class="s5"> </span><span class="s3">20</span><span class="s5">; </span><span class="s1"><i>// Slightly over but manageable</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>reasons.</span><span class="s6">push</span><span class="s1">(</span><span class="s4">"Slightly over budget"</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1"><i>// 2. Industry Match (Salary Potential)</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> avgSalary </span><span class="s6">=</span><span class="s1"> city.salaries[userIndustry] </span><span class="s6">||</span><span class="s1"> </span><span class="s3">0</span><span class="s1">;</span></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1"><i>// Normalize salary score (assuming 40k is baseline, 70k is high)</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> salaryScore </span><span class="s6">=</span><span class="s1"> </span><span class="s3">Math</span><span class="s1">.</span><span class="s6">min</span><span class="s1">((avgSalary </span><span class="s6">/</span><span class="s1"> </span><span class="s3">70000</span><span class="s1">) </span><span class="s6">*</span><span class="s1"> </span><span class="s3">30</span><span class="s1">, </span><span class="s3">30</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>score </span><span class="s6">+=</span><span class="s1"> salaryScore;</span></p>
+<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">if</span><span class="s1"> (avgSalary </span><span class="s6">&gt;</span><span class="s1"> </span><span class="s3">50000</span><span class="s1">) reasons.</span><span class="s6">push</span><span class="s1">(`</span><span class="s4">Strong </span><span class="s1">${userIndustry}</span><span class="s4"> salaries (£</span><span class="s1">${avgSalary.toLocaleString()}</span><span class="s4">)</span><span class="s1">`);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">else</span><span class="s1"> </span><span class="s7">if</span><span class="s1"> (avgSalary </span><span class="s6">&gt;</span><span class="s1"> </span><span class="s3">35000</span><span class="s1">) reasons.</span><span class="s6">push</span><span class="s1">(`</span><span class="s4">Decent </span><span class="s1">${userIndustry}</span><span class="s4"> salaries (£</span><span class="s1">${avgSalary.toLocaleString()}</span><span class="s4">)</span><span class="s1">`);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">else</span><span class="s1"> reasons.</span><span class="s6">push</span><span class="s1">(`${userIndustry}</span><span class="s4"> market is smaller here</span><span class="s1">`);</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1"><i>// 3. Lifestyle Match (Vibe Score)</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> vibeScore </span><span class="s6">=</span><span class="s1"> city.vibes[userLifestyle];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>score </span><span class="s6">+=</span><span class="s1"> (vibeScore </span><span class="s6">*</span><span class="s1"> </span><span class="s3">0.3</span><span class="s1">); </span><span class="s8"><i>// Max 30 points from vibe</i></span></p>
+<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">if</span><span class="s1"> (vibeScore </span><span class="s6">&gt;</span><span class="s1"> </span><span class="s3">80</span><span class="s1">) reasons.</span><span class="s6">push</span><span class="s1">(</span><span class="s4">"Perfect match for your lifestyle"</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">else</span><span class="s1"> </span><span class="s7">if</span><span class="s1"> (vibeScore </span><span class="s6">&gt;</span><span class="s1"> </span><span class="s3">50</span><span class="s1">) reasons.</span><span class="s6">push</span><span class="s1">(</span><span class="s4">"Good lifestyle fit"</span><span class="s1">);</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">                </span></span><span class="s1"><i>// Cap score at 100</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>score </span><span class="s6">=</span><span class="s1"> </span><span class="s3">Math</span><span class="s1">.</span><span class="s6">min</span><span class="s1">(</span><span class="s3">Math</span><span class="s1">.</span><span class="s6">max</span><span class="s1">(score, </span><span class="s3">0</span><span class="s1">), </span><span class="s3">100</span><span class="s1">);</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">return</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s6">...</span><span class="s1">city,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s2">matchScore</span><span class="s6">:</span><span class="s1"> </span><span class="s3">Math</span><span class="s1">.</span><span class="s6">round</span><span class="s1">(score),</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s2">reasons</span><span class="s6">:</span><span class="s1"> reasons</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1"><i>// Sort by score descending</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>scoredCities.</span><span class="s6">sort</span><span class="s1">((a, b) </span><span class="s6">=&gt;</span><span class="s1"> b.matchScore </span><span class="s6">-</span><span class="s1"> a.matchScore);</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1"><i>// Take top 3</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> topMatches </span><span class="s6">=</span><span class="s1"> scoredCities.</span><span class="s6">slice</span><span class="s1">(</span><span class="s3">0</span><span class="s1">, </span><span class="s3">3</span><span class="s1">);</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s1"><i>// Render HTML</i></span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s7">let</span><span class="s5"> html </span><span class="s6">=</span><span class="s5"> `</span><span class="s1">&lt;div style="background:var(--surface); padding:var(--space-md); border-radius:var(--radius); margin-bottom:var(--space-sm);"&gt;</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">                </span>&lt;strong&gt;Your Criteria:&lt;/strong&gt; </span><span class="s5">${P.lifestyle}</span><span class="s1"> lifestyle, £</span><span class="s5">${P.budget}</span><span class="s1"> budget, </span><span class="s5">${P.industry}</span><span class="s1"> sector.</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span><span class="s5">`;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>topMatches.</span><span class="s6">forEach</span><span class="s1">(city </span><span class="s6">=&gt;</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">let</span><span class="s1"> reasonText </span><span class="s6">=</span><span class="s1"> city.reasons.</span><span class="s6">join</span><span class="s1">(</span><span class="s4">", "</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>html </span><span class="s6">+=</span><span class="s1"> `</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div style="border-left: 3px solid var(--accent); background:var(--surface); padding:var(--space-md); margin-bottom:var(--space-sm); border-radius:0 var(--radius) var(--radius) 0;"&gt;</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;"&gt;</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;h3 style="color:var(--accent); margin:0;"&gt;</span><span class="s5">${city.name}</span><span class="s1">&lt;/h3&gt;</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;span style="background:var(--accent-dim); color:var(--accent); padding:0.2rem 0.6rem; border-radius:4px; font-weight:bold;"&gt;</span><span class="s5">${city.matchScore}</span><span class="s1">% Match&lt;/span&gt;</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:0.5rem;"&gt;</span><span class="s5">${city.notes}</span><span class="s1">&lt;/p&gt;</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div style="font-size:0.85rem; color:#ccc; border-top:1px solid #333; padding-top:0.5rem;"&gt;</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;strong&gt;Why?&lt;/strong&gt; </span><span class="s5">${reasonText}</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div style="margin-top:0.5rem; font-size:0.85rem; color:#aaa;"&gt;</span></p>
+<p class="p1"><span class="s4"><span class="Apple-converted-space">                        </span>Est. Rent: £</span><span class="s1">${city.rent}</span><span class="s4"> | Avg </span><span class="s1">${userIndustry}</span><span class="s4"> Salary: £</span><span class="s1">${city.salaries[userIndustry].toLocaleString()}</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span><span class="s5">`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>container.innerHTML </span><span class="s6">=</span><span class="s1"> html;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>// --- Export Logic ---</i></span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s7">async</span><span class="s5"> </span><span class="s7">function</span><span class="s5"> </span><span class="s1">downloadSnapshot</span><span class="s5">() {</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s5"> btn </span><span class="s1">=</span><span class="s5"> </span><span class="s1">document</span><span class="s5">.</span><span class="s1">getElementById</span><span class="s5">(</span><span class="s4">'btn-download'</span><span class="s5">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>btn.innerText </span><span class="s6">=</span><span class="s1"> </span><span class="s4">"Generating..."</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>btn.disabled </span><span class="s6">=</span><span class="s1"> </span><span class="s3">true</span><span class="s1">;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">await</span><span class="s1"> </span><span class="s7">new</span><span class="s1"> </span><span class="s3">Promise</span><span class="s1">(r </span><span class="s6">=&gt;</span><span class="s1"> </span><span class="s6">setTimeout</span><span class="s1">(r, </span><span class="s3">1500</span><span class="s1">));</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> shareData </span><span class="s6">=</span><span class="s1"> </span><span class="s6">btoa</span><span class="s1">(</span><span class="s3">JSON</span><span class="s1">.</span><span class="s6">stringify</span><span class="s1">(</span><span class="s3">P</span><span class="s1">));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> shareUrl </span><span class="s6">=</span><span class="s1"> `${window.location.origin}${window.location.pathname}</span><span class="s4">?data=</span><span class="s1">${shareData}`;</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s6">alert</span><span class="s5">(`</span><span class="s1">Snapshot Generated!\n\nYour data is ready. In a full version, this would download a PDF.\n\nShareable Link (simulated):\n</span><span class="s5">${shareUrl}`);</span></p>
+<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s6">clearSession</span><span class="s1">();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>btn.innerText </span><span class="s6">=</span><span class="s1"> </span><span class="s4">"Downloaded"</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>btn.style.background </span><span class="s6">=</span><span class="s1"> </span><span class="s4">"#4CAF50"</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>btn.style.color </span><span class="s6">=</span><span class="s1"> </span><span class="s4">"#fff"</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>// --- URL Parameter Handling ---</i></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">window</span><span class="s1">.onload </span><span class="s6">=</span><span class="s1"> </span><span class="s7">function</span><span class="s1">() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> urlParams </span><span class="s6">=</span><span class="s1"> </span><span class="s7">new</span><span class="s1"> </span><span class="s3">URLSearchParams</span><span class="s1">(</span><span class="s6">window</span><span class="s1">.location.search);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> dataParam </span><span class="s6">=</span><span class="s1"> urlParams.</span><span class="s6">get</span><span class="s1">(</span><span class="s4">'data'</span><span class="s1">);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s1"> (dataParam) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">try</span><span class="s1"> {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s7">const</span><span class="s1"> decoded </span><span class="s6">=</span><span class="s1"> </span><span class="s3">JSON</span><span class="s1">.</span><span class="s6">parse</span><span class="s1">(</span><span class="s6">atob</span><span class="s1">(dataParam));</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">                    </span></span><span class="s6">document</span><span class="s5">.</span><span class="s6">getElementById</span><span class="s5">(</span><span class="s1">'savedBanner'</span><span class="s5">).innerHTML </span><span class="s6">=</span><span class="s5"> </span><span class="s1">"Loaded from shared link. Edit to refine."</span><span class="s5">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s6">document</span><span class="s1">.</span><span class="s6">getElementById</span><span class="s1">(</span><span class="s4">'savedBanner'</span><span class="s1">).style.display </span><span class="s6">=</span><span class="s1"> </span><span class="s4">'block'</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} </span><span class="s7">catch</span><span class="s1">(e) { </span><span class="s3">console</span><span class="s1">.</span><span class="s6">error</span><span class="s1">(</span><span class="s4">"Invalid shared data"</span><span class="s1">); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/</span><span class="s2">script</span><span class="s1">&gt;</span></p>
+<p class="p2"><span class="s5">&lt;/</span><span class="s1">body</span><span class="s5">&gt;</span></p>
+<p class="p2"><span class="s5">&lt;/</span><span class="s1">html</span><span class="s5">&gt;</span></p>
 </body>
 </html>
